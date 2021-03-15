@@ -53,7 +53,7 @@ class Login_Ctrl extends CI_Controller {
 		  return;
 		}else{
 			try{
-				// header("Access-Control-Allow-Credentials: true");
+				header("Access-Control-Allow-Credentials: true");
 				if(check_jwt_cookie($this->auth["service_name"], $this->auth["cookie_name"])){
 					response(regenerate_jwt_cookie($this->auth["service_name"], $this->auth["cookie_name"]));
 					return;
@@ -62,62 +62,22 @@ class Login_Ctrl extends CI_Controller {
 					$user_name = $_POST["username"];
 					$password = $_POST["password"];
 					$status = '-1';
+					$row = authorize($this->auth["table"], $this->auth["fields"], $this->auth["username_field"], $this->auth["password_field"], $this->auth["id_field"], $user_name , $password , $this->auth["service_name"], $this->auth["cookie_name"]);
 					if ($row['system_password'] > 0) {
 						$status = "2";
 					}else{
 						$status = "1";
 					}
-					response(["status" => $status, "data" => authorize($this->auth["table"], $this->auth["fields"], $this->auth["username_field"], $this->auth["password_field"], $this->auth["id_field"], $user_name , $password , $this->auth["service_name"], $this->auth["cookie_name"])]);
+					response(["status" => $status, "data" => $row]);
 					return;
 				}
 			}catch(exception $e){
+				print_r($e);
 				 response(array(
 						 "code" => NO_COOKIE,
 						 "message" => $this->lang->line('expired_token_error')
 						));
 			}
 		}
-	}
-
-	/////-----Login User
-	public function login()
-	{
-		
-		header('Content-Type: application/json');
-		if($this->input->method(true) != 'POST'){
-		  response(array("code" => BAD_CREDENTIALS,"message:"=> $this->lang->line('method_warning')));
-		  return;
-		}
-		else{
-				header("Access-Control-Allow-Credentials: true");
-				$username = $this->input->post('username');
-				$password = $this->input->post('password');
-				$password = $this->encryptIt($password);
-				$response = $this->Login_model->login($username,$password);
-				if ($response) {
-					
-					echo json_encode($response);
-				}
-				else{
-
-					echo json_encode('-1');
-				}
-		}
-	}
-	
-	
-   private function encryptIt($q)
-	{
-		//$cryptKey	= 'qJB0rGtIn5UB1xG03efyCp';
-		//$qEncoded	= base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($cryptKey), $q, MCRYPT_MODE_CBC, md5(md5($cryptKey))));
-		$secret_key = 'M@#TTOO&*hj88_-##^2';
-		$secret_iv = '&^%YYUHfr%tII#UOT2';
-
-		$output = false;
-		$encrypt_method = "AES-256-CBC";
-		$key = hash( 'sha256', $secret_key );
-		$iv = substr( hash( 'sha256', $secret_iv ), 0, 16 );
-		$qEncoded = base64_encode( openssl_encrypt( $q, $encrypt_method, $key, 0, $iv ) );
-		return( $qEncoded );
 	}
 }
