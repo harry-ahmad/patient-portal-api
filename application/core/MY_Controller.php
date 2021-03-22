@@ -57,6 +57,7 @@ class MY_Controller extends CI_Controller {
 		}else{
 			$data = get_jwt_data($this->auth["cookie_name"]);
 			$this->user_id = $data['id'];
+			
 		}
 	}
 }

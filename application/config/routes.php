@@ -52,7 +52,40 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'Login_Ctrl';
 $route['login']   		     = 'Login_Ctrl/check_login';
 
+//////----------Allergy_Ctrl routes
+$route['getlist']   		 = 'Allergy_Ctrl/getlist';
+$route['save']   		     = 'Allergy_Ctrl/save';
 
+//////----------Appointment_Ctrl routes
+$route['calender']   	     = 'Appointment_Ctrl/calendere';
+$route['calenderevents']     = 'Appointment_Ctrl/calenderevents';
+$route['appoitment_list']    = 'Appointment_Ctrl/appoitment_list';
+
+//////----------Bloodglucose_Ctrl routes
+$route['bloodglucose_list']    = 'Bloodglucose_Ctrl/bloodglucose_list';
+$route['bloodglucose_save']    = 'Bloodglucose_Ctrl/bloodglucose_save';
+
+//////----------Bloodpressure_Ctrl routes
+$route['bloodpressure_list']    = 'Bloodpressure_Ctrl/bloodpressure_list';
+$route['bloodpressure_save']    = 'Bloodpressure_Ctrl/bloodpressure_save';
+
+//////----------Bmi_Ctrl routes
+$route['bmi_list']    = 'Bmi_Ctrl/bmi_list';
+$route['bmi_save']    = 'Bmi_Ctrl/bmi_save';
+
+//////----------Cholesterol_Ctrl routes
+$route['cholesterol_list']    = 'Cholesterol_Ctrl/cholesterol_list';
+$route['cholesterol_save']    = 'Cholesterol_Ctrl/cholesterol_save';
+
+//////----------Insurance_Ctrl routes
+$route['insurance_list']    = 'Insurance_Ctrl/insurance_list';
+
+//////----------Family_Ctrl routes
+$route['family_list']    = 'Family_Ctrl/family_list';
+$route['family_save']    = 'Family_Ctrl/family_save';
+//////----------surgical_Ctrl routes
+$route['surgical_list']    = 'Surgical_Ctrl/surgical_list';
+$route['surgical_save']    = 'Surgical_Ctrl/surgical_save';
 
 
 

@@ -188,4 +188,29 @@ function list_options($id){
 	$result = $CI->db->query("Select option_value FROM list_options WHERE list_id = '".$id."'  ");
 	return $result->row_array();
 }
+
+if(!function_exists("myDate")){ 
+	function myDate($pressDate){
+		$myDate = date("j M, Y, g:i A", strtotime($pressDate));
+		return $myDate;
+
+	}
+}		
+if(!function_exists("converDate")){ 
+	function converDate($pressDate){
+		$myDate = date('Y-m-d H:i:s', strtotime($pressDate));
+			return $myDate;
+
+	}
+}		
+if(!function_exists("compileResponse")){ 
+	function compileResponse($code, $msg){
+		if ($code == 200)
+				$msg = '{"code":"' . $code . '","message":"Updated Successfully!"}';
+			else
+				$msg = '{"code":"' . $code . '","message":"' . $msg . '"}';
+			return $msg;
+
+	}
+}		
 ?>
