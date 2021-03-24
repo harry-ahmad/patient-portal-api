@@ -152,7 +152,22 @@ public function surgical_save()
 
 }
 
-//////////////////////////------- For family/save.php --------/////////////////////////////////
+//////////////////////////------- For Surgical/save.php --------/////////////////////////////////
+
+//////////////////////////------- For Surgical/save.php --------/////////////////////////////////
+public function delete_surg()
+{
+    $request = get_request_body();
+    $ids = $request['ids'];
+    $ids = rtrim($ids, ',');
+    $result = $db->executeSQL("delete from lists where id in (" . $ids . ")");
+    $result = $this->Surgical_model->deleteFromlists($ids);
+   
+    echo $this->compileResponse(200, "Records has been removed!");
+
+
+}
+//////////////////////////------- For Surgical/save.php --------/////////////////////////////////
 
 private function get_sp_search_list_count($db, $search_tbl, $like_search, $where, $join) 
 	{   
@@ -179,5 +194,13 @@ private function get_sp_search_list_count($db, $search_tbl, $like_search, $where
 		return $search_term;                     
 	}
 
+ private function compileResponse($code, $msg)
+		{
+			if ($code == 200)
+				$msg = '{"code":"' . $code . '","message":"Updated Successfully!"}';
+			else
+				$msg = '{"code":"' . $code . '","message":"' . $msg . '"}';
+			return $msg;
+		}
 
 }    

@@ -86,6 +86,11 @@ $route['family_save']    = 'Family_Ctrl/family_save';
 //////----------surgical_Ctrl routes
 $route['surgical_list']    = 'Surgical_Ctrl/surgical_list';
 $route['surgical_save']    = 'Surgical_Ctrl/surgical_save';
+$route['delete_surg']      = 'Surgical_Ctrl/delete_surg';
+//////----------patient_Ctrl routes
+$route['patient_list']    = 'Patient_Ctrl/patient_list';
+$route['patient_save']    = 'Patient_Ctrl/patient_save';
+$route['patient_file_upload']    = 'Patient_Ctrl/patient_file_upload';
 
 
 

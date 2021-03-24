@@ -17,6 +17,19 @@ public function dynamic_query($select_qry,$search_tbl,$where)
     }
 }
 	
+public function deleteFromlists($ids)
+{
+    $sql = "delete from lists where id in (" . $ids . ")";
+    
+     $this->db->query($sql);
+    if($this->db->affected_rows() > 0){
+        return true;
+    }
+    else{
+    return false;
+    }
+}
+	
 public function dynamic_query2nd($search_tbl,$join,$like_search,$where,$order_by,$page_number,$page_size)
 {
     $sql = "SELECT $select_qry "
