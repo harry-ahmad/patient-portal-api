@@ -83,6 +83,9 @@ $route['insurance_list']    = 'Insurance_Ctrl/insurance_list';
 //////----------Family_Ctrl routes
 $route['family_list']    = 'Family_Ctrl/family_list';
 $route['family_save']    = 'Family_Ctrl/family_save';
+//////----------Measurement_Ctrl routes
+$route['measurement_list']    = 'Measurement_Ctrl/measurement_list';
+$route['measurement_save']    = 'Measurement_Ctrl/measurement_save';
 //////----------surgical_Ctrl routes
 $route['surgical_list']    = 'Surgical_Ctrl/surgical_list';
 $route['surgical_save']    = 'Surgical_Ctrl/surgical_save';
@@ -92,7 +95,20 @@ $route['patient_list']    = 'Patient_Ctrl/patient_list';
 $route['patient_save']    = 'Patient_Ctrl/patient_save';
 $route['patient_file_upload']    = 'Patient_Ctrl/patient_file_upload';
 
+///////----------Medical_Ctrl routes
+$route['deleteDx']        = 'Medical_Ctrl/deleteDx';
+$route['deleteRx']        = 'Medical_Ctrl/deleteRx';
+$route['editDx']          = 'Medical_Ctrl/editDx';
+$route['medical_list']    = 'Medical_Ctrl/medical_list';
+$route['medical_save']    = 'Medical_Ctrl/medical_save';
 
+///////----------Dashboard_Ctrl routes
+$route['dashboard']        = 'Dashboard_Ctrl/dashboard';
+
+///////----------Getzipvals_Ctrl routes
+$route['getzipvals_func']        = 'Getzipvals_Ctrl/getzipvals_func';
+///////----------Document_Ctrl routes
+$route['document_list']        = 'Document_Ctrl/document_list';
 
 
 $route['404_override'] = '';
