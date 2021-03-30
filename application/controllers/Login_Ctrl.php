@@ -81,7 +81,7 @@ class Login_Ctrl extends CI_Controller {
 		}
 	}
 
-	public logout_user(){
+	public function logout_user(){
 		header("Access-Control-Allow-Credentials: true");
 		if($this->input->method(true) == 'POST'){
 		  if(check_jwt_cookie($this->auth["service_name"], $this->auth["cookie_name"])){
