@@ -75,9 +75,26 @@ class Login_Ctrl extends CI_Controller {
 				print_r($e);
 				 response(array(
 						 "code" => NO_COOKIE,
-						 "message" => $this->lang->line('expired_token_error')
+						 "message" => 'expired_token_error'
 						));
 			}
+		}
+	}
+
+	public logout_user(){
+		header("Access-Control-Allow-Credentials: true");
+		if($this->input->method(true) == 'POST'){
+		  if(check_jwt_cookie($this->auth["service_name"], $this->auth["cookie_name"])){
+			setcookie($this->auth["cookie_name"], "", -1000, "/", NULL, NULL );
+			response(array(
+				"code" => SUCCESS,
+				"message" => 'logout_msg_success'
+			  ));
+			  return;
+		  }
+		}else{
+			response(array("code" => BAD_CREDENTIALS,"message:"=> 'expired_token_error'));
+			return;
 		}
 	}
 }
