@@ -109,7 +109,9 @@ $route['dashboard']        = 'Dashboard_Ctrl/dashboard';
 $route['getzipvals_func']        = 'Getzipvals_Ctrl/getzipvals_func';
 ///////----------Document_Ctrl routes
 $route['document_list']        = 'Document_Ctrl/document_list';
-
+///////----------Options_Ctrl routes
+$route['getOptionsLists']        = 'Options_Ctrl/getOptionsLists_func';
+$route['getOptions']        = 'Options_Ctrl/getOptions_func';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

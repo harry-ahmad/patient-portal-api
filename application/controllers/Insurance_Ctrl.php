@@ -12,20 +12,33 @@ class Insurance_Ctrl extends MY_Controller {
     
 //////////////////////////------- For Insurance/list.php --------/////////////////////////////////
 public function Insurance_list()
-{
-    $result = null;
-    if ($_REQUEST['type'] == 'primary') {
-        $result = $this->Insurance_model->insurance_data_one($this->userid);
-          }else if ($_REQUEST['type'] == 'secondary') {
-        $result = $this->Insurance_model->insurance_data_two($this->userid);
-        } else if ($_REQUEST['type'] == 'tertiary') {
-        $result = $this->Insurance_model->insurance_data_three($this->userid);
-       }
+{    
+    // $result = $this->Insurance_model->insurance_data_all($this->user_id);
+    $result = [];
+    $result1 = $this->Insurance_model->insurance_data_one($this->user_id);
+    $result2 = $this->Insurance_model->insurance_data_two($this->user_id);
+    $result3 = $this->Insurance_model->insurance_data_three($this->user_id);
+    if($result1){
+        array_push($result, $result1);    
+    }
+    if($result2){
+        array_push($result, $result2);    
+    }
+    if($result3){
+        array_push($result, $result3);    
+    }    
     
-    $rows = array();
-    while ($r = $result)
-        $rows[] = $r;
-    echo json_encode($rows);
+    // if ($_REQUEST['type'] == 'primary') {
+    //     $result = $this->Insurance_model->insurance_data_one($this->userid);
+    //       }else if ($_REQUEST['type'] == 'secondary') {
+    //     $result = $this->Insurance_model->insurance_data_two($this->userid);
+    //     } else if ($_REQUEST['type'] == 'tertiary') {
+    //     $result = $this->Insurance_model->insurance_data_three($this->userid);
+    //    }
+    // print_r($result);exit;
+    // $rows = array();
+    //     $rows[] = $r;
+    echo json_encode($result);
 
 }
 

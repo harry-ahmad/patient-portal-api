@@ -23,7 +23,7 @@ Class Getzipvals_model extends MY_Model{
         
         $query = $this->db->query($sql);
         if($query->num_rows() > 0){
-            return($query->result_array());
+            return($query->row_array());
         }
         else{
         return false;
