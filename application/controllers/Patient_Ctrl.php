@@ -5,14 +5,14 @@ class Patient_Ctrl extends MY_Controller {
 
     public function __construct(){
 		parent::__construct();
-		$this->load->model('Surgical_model');
+		$this->load->model('Patient_model');
 
     }
     
 //////////////////////////------- For Patient/list.php --------/////////////////////////////////
 public function patient_list()
 {
-    $json_str_obj = $this->get_patient_json($this->userid);
+    $json_str_obj = $this->get_patient_json($this->user_id);
 	echo $json_str_obj;
 
 }
@@ -20,7 +20,8 @@ public function patient_list()
 public function patient_save()
 {
     $request = get_request_body();
-	$request["patient_data"] = $this->userid;
+	$request["patient_data"] = $this->user_id;
+	$request["hx_id"] = $this->user_id;
     $output = str_replace(array("\r\n", "\n", "\r"),'',$request);
 	$jsonData = json_encode($output);
     $table_name = "patient_data";
@@ -28,7 +29,7 @@ public function patient_save()
 
 			///////------- For Adding Records
 			
-            $result = $this->Patient_model->addData_patient_portal_changes($this->userid,$table_name,$change_type,$jsonData,$request['hx_id']);
+            $result = $this->Patient_model->addData_patient_portal_changes($this->user_id,$table_name,$change_type,$jsonData,$request['hx_id']);
 			if($result ){
 				echo compileResponse(300, "<h1>Your Message has been sent to the clinic.<br/> please wait for them to review and respond.</h1>");
 			}else{
@@ -43,7 +44,7 @@ public function patient_save()
 //////////////////////////------- For faPatientmily/fileupload.php --------/////////////////////////////////
 public function patient_file_upload()
 {
-	$directory = '../../include/patient_data/patient_'.$this->userid;
+	$directory = '../../include/patient_data/patient_'.$this->user_id;
 	if(!is_dir($directory))
 		mkdir($directory, 0777, true);
 	
@@ -73,8 +74,8 @@ public function patient_file_upload()
 		
 		if($errors === ""){
 			///////------- Check If File Already Exist
-			// $resultSub = $db->executeSQL("SELECT file_name FROM patient_documents where category = '6' and pid=".$this->userid);
-			$resultSub = $this->Patient_model->getDataFrom_patient_documents($this->userid);
+			// $resultSub = $db->executeSQL("SELECT file_name FROM patient_documents where category = '6' and pid=".$this->user_id);
+			$resultSub = $this->Patient_model->getDataFrom_patient_documents($this->user_id);
 			$rowSub = $resultSub;
 			$myFileName = $rowSub["file_name"];
 			if($myFileName <> ""){
@@ -84,9 +85,9 @@ public function patient_file_upload()
 					unlink($filename);
 				} 
 				///////------- Delete OLD Image
-				$result = $this->Patient_model->update_patient_documents($file_name,$file_ext,$mbSize,$this->userid);
+				$result = $this->Patient_model->update_patient_documents($file_name,$file_ext,$mbSize,$this->user_id);
 				}else{
-					$result = $this->Patient_model->insert_patient_documents($file_name,$file_ext,$mbSize,$this->userid);
+					$result = $this->Patient_model->insert_patient_documents($file_name,$file_ext,$mbSize,$this->user_id);
 				}
 			///////------- Check If File Already Exist
 			move_uploaded_file($file_tmp,$directory."/".$file_name);
@@ -101,11 +102,9 @@ public function patient_file_upload()
 //////////////////////////------- For Patient/fileupload.php --------/////////////////////////////////
 
 private function get_patient_json($pid) 
-	{   
-		
+	{   		
 		$result =  $this->Patient_model->get_patient_json($pid);
-		$r = $result;
-		return $r['totalCount'];
+		return $result;
 	}
 
 private	function readyToLink($str)
