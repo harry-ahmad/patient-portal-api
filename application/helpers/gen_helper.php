@@ -212,5 +212,40 @@ if(!function_exists("compileResponse")){
 			return $msg;
 
 	}
-}		
+}
+
+if(!function_exists('readyToLink'))
+	{
+		function readyToLink($str)
+		{
+			$str = str_replace("-"," ",$str);
+			$before = array(
+				'àáâãäåòóôõöøèéêëðçìíîïùúûüñšž',
+				'/[^a-z0-9\s]/',
+				array('/\s/', '/--+/', '/---+/')
+			);
+			$after = array( 'aaaaaaooooooeeeeeciiiiuuuunsz', '');	
+			$str = strtolower($str);
+			$str = strtr($str, $before[0], $after[0]);
+			$str = preg_replace($before[1], $after[1], $str);
+			$str = trim($str);
+			$str = str_replace("  "," ",$str);
+			$str = str_replace("   "," ",$str);
+			$str = str_replace(" ","-",$str);
+			return $str;
+		}
+	}
+	
+	if(!function_exists('getImageName'))
+	{
+		function getImageName($str)
+		{
+			$i = strrpos($str,".");
+			if (!$i) { return ""; }
+			$l = strlen($str) - $i;
+			$ext = substr($str,0,$i);
+			return $ext;
+		}
+	}
+
 ?>
