@@ -47,10 +47,11 @@ class MY_Controller extends CI_Controller {
 		$cookie_data = check_jwt_cookie($this->auth["service_name"], $this->auth["cookie_name"]);
 		if(!$cookie_data){
 			$resp = array(
-			  "code" => BAD_CREDENTIALS,
-			  "message" => $this->lang->line('expired_token_error')
+			  "code" => UNAUTHORIZED,
+			  "message" => 'UNAUTHORIZED'
 			);
-			response($resp);
+			response($resp, true);
+			
 			exit(0);
 		}else{
 			$data = get_jwt_data($this->auth["cookie_name"]);

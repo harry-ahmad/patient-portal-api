@@ -206,7 +206,7 @@ if(!function_exists("converDate")){
 if(!function_exists("compileResponse")){ 
 	function compileResponse($code, $msg){
 		if ($code == 200)
-				$msg = '{"code":"' . $code . '","message":"Updated Successfully!"}';
+				$msg = '{"code":"' . $code . '","message":"Saved Successfully!"}';
 			else
 				$msg = '{"code":"' . $code . '","message":"' . $msg . '"}';
 			return $msg;

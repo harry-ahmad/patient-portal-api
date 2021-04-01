@@ -49,7 +49,7 @@ class Login_Ctrl extends CI_Controller {
 	{
 		header('Content-Type: application/json');
 		if($this->input->method(true) != 'POST'){
-		  response(array("code" => BAD_CREDENTIALS,"message:"=> $this->lang->line('method_warning')));
+		  response(array("code" => BAD_CREDENTIALS,"message:"=> 'BAD_CREDENTIALS'));
 		  return;
 		}else{
 			try{
@@ -72,11 +72,10 @@ class Login_Ctrl extends CI_Controller {
 					return;
 				}
 			}catch(exception $e){
-				print_r($e);
 				 response(array(
-						 "code" => NO_COOKIE,
-						 "message" => 'expired_token_error'
-						));
+					"code" => BAD_CREDENTIALS,
+					"message" => 'BAD CREDENTIALS'
+				), true);
 			}
 		}
 	}
@@ -93,7 +92,7 @@ class Login_Ctrl extends CI_Controller {
 			  return;
 		  }
 		}else{
-			response(array("code" => BAD_CREDENTIALS,"message:"=> 'expired_token_error'));
+			response(array("code" => BAD_CREDENTIALS,"message:"=> 'BAD_CREDENTIALS'), true);
 			return;
 		}
 	}

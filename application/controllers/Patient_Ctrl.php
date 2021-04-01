@@ -31,10 +31,17 @@ public function patient_save()
 			
             $result = $this->Patient_model->addData_patient_portal_changes($this->user_id,$table_name,$change_type,$jsonData,$request['hx_id']);
 			if($result ){
-				echo compileResponse(300, "<h1>Your Message has been sent to the clinic.<br/> please wait for them to review and respond.</h1>");
+				response(array(
+					"status" => SUCCESS,
+					"message" => 'Your Message has been sent to the clinic. Please wait for them to review and respond'
+				));
 			}else{
-				echo compileResponse(500, "Bad Parameters!!!");
+				response(array(
+					"status" => BAD_DATA,
+					"message" => 'Error while saving the record'
+				), true);
 			}
+			
 			///////------- For Adding Records
 
 }

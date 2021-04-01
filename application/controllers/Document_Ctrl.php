@@ -48,8 +48,10 @@ public function save_document()
       $extensions = array("jpeg","jpg","png","bmp","zip","pdf","doc","docx","txt");
       
       if(in_array($file_ext,$extensions) === false){
-        exit("Extension (".$file_ext.") not allowed.");
-        //$errors .= " Extension (".$file_ext.") not allowed.";
+        response(array(
+          "status" => BAD_DATA,
+          "message" => "Extension (".$file_ext.") not allowed."
+         ), true);
       }
     //        if($file_size > 5242880)
     //           $errors .= 'File size must be excately or less than 5 MB';
@@ -79,7 +81,7 @@ public function save_document()
     
     $_FILES['file'] = implode(',', $file_paths);
     $output = str_replace(array("\r\n", "\n", "\r"),'',$_FILES);
-$jsonData = json_encode($output);
+    $jsonData = json_encode($output);
     //echo'<pre>',count($jsonData);print_r($jsonData);exit();
     ///////------- For Adding Records
     $result = $this->db->query(
@@ -87,14 +89,16 @@ $jsonData = json_encode($output);
       VALUES 
       ('".$pid."','".$table_name."','".$change_type."','".$jsonData."', '".$_POST['hx_id']."','0','0','')"
     );
-    print_r($result);
     if($result> 0){
-      response(["status" => 1, "data" => "<h1>Your Message has been sent to the clinic.<br/> please wait for them to review and respond.</h1>"]);
+      response(array(
+        "status" => SUCCESS,
+        "message" => 'Your Message has been sent to the clinic. Please wait for them to review and respond'
+      ));
     }else{
       response(array(
-        "status" => 0,
+        "status" => BAD_DATA,
         "message" => 'Error while saving the record'
-       ));
+       ), true);
     }
     /////------- For Adding Records
   }else

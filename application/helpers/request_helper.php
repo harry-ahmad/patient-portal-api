@@ -12,12 +12,27 @@ function get_request_body(){
 /**
  * Response result 
  */
-function response($array = array(), $print = true){
+function response($array = array(), $error = false, $print = true){
+	if($error){
+		error_response($array);
+	}
+	
 	$encode = json_encode($array);
 	if($print){
 		echo $encode;
 	}else{
-		return $encode;;
+		return $encode;
 	}
+}
+
+function error_response($array = array()){
+	$sapi_type = php_sapi_name();
+	$text = "";
+	if (substr($sapi_type, 0, 3) == 'cgi')
+		$text = "Status: ".$array['code']." ".$array['message'];
+	else
+		$text = "HTTP/1.1 ".$array['code']." ".$array['message'];
+
+	header($text);
 }
 ?>
