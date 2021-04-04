@@ -64,7 +64,6 @@ public function getlist(){
                     "totalRow"   =>  $total_row,
                     "totalPage"  => round($total_page),
                     "list"       => $result_arr)));
-
             echo json_encode($final_data);
         }
         return false;
@@ -121,9 +120,9 @@ public function getlist(){
         $rows[] = $r;
     }else{
         // $result = $db->executeSQL("SELECT * FROM patient_allergies where pid =".$pid);
-        $result = $this->Allergy_model->get_patient_allergiesBypid($this->user_id);
-        while ($r = $result)
-            $rows[] = $r;
+        $result = $this->Allergy_model->get_patient_allergiesBypid($this->user_id);        
+        echo json_encode($result);
+        
     }
 
 }
@@ -198,7 +197,7 @@ private function script_sure_login(){
 public function save(){
 
  $request = get_request_body();
- $request["patientId"] = $this->userid; //$pid
+ $request["patientId"] = $this->user_id; //$pid
 if(isset($request["reaction_date"])){
     $request["reaction_date"] = date('Y-m-d', strtotime($request["reaction_date"]));
 }
@@ -214,7 +213,7 @@ $change_type = $request['editID'];
 
 $result = $this->Allergy_model->AddRecordsTo_patient_portal_changes($this->user_id,$table_name,$change_type,$jsonData,$request['hx_id']);
 if($result){
-    echo compileResponse(300, "<h1>Your Message has been sent to the clinic.<br/> please wait for them to review and respond.</h1>");
+    echo compileResponse(300, "Your Message has been sent to the clinic. Please wait for them to review and respond.");
 }else{
     echo compileResponse(500, "Bad Parameters!!!");
 }

@@ -22,7 +22,7 @@ public function family_list()
 				{
 					$result = $this->Family_model->get_diagnosisDataForFamily($icd_code);
                     while ($r = $result)
-							$diagnosis[] = $r['display_description'];
+							$diagnosis[] = $r['2'];
 				}
 				echo json_encode($diagnosis);
 				return false;
@@ -133,12 +133,23 @@ public function family_list()
 
 	}
 	
-    $result = $this->Family_model->getDataFromfamilyhx($this->userid);
-	$rows = [];
-	while ($r = mysqli_fetch_assoc($result))
-			$rows[] = $r;
+    $result = $this->Family_model->getDataFromfamilyhx($this->user_id);
+	foreach ($result as $key => $value) {
+		if($value['diagnosis'] !== "")
+			{
+				$icd_code_exp = explode(',', str_replace('ICD10:','',$value['diagnosis']));
+				$diagnosis = array();
+				foreach($icd_code_exp as $icd_code)
+				{
+					$result2 = $this->Family_model->get_diagnosisDataForFamily($icd_code);
+					array_push($diagnosis, array('code' => $result2['DCODE'], 'desc' => $result2['display_description']));
+				}
+				$result[$key]['diagnosis_data'] = $diagnosis;
+				
+		}
+	}
 
-	echo json_encode($rows);
+	echo json_encode($result);
 
 }
 //////////////////////////------- For Family/save.php --------/////////////////////////////////

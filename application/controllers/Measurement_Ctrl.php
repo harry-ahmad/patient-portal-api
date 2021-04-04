@@ -27,23 +27,21 @@ public function measurement_list()
     }else{
         
         // $result = $db->executeSQL("SELECT *, vital_id as id FROM form_vitals where pid = ".$pid);
-        $result = $this->Measurement_model->getDirectData_form_vitals($this->userid);
-        while ($r = $result){
+        $result = $this->Measurement_model->getAllDataFrom_form_vitals($this->user_id);
+        // while ($r = $result){
             
-            $rows[] = $r;
-        }//End While
-      
-    }
-    
-    echo json_encode($rows);
+        //     $rows[] = $r;
+        // }//End While
+        echo json_encode($result);
+    }    
 
 }
 //////////////////////////------- For Measurement/save.php --------/////////////////////////////////
 public function measurement_save()
 {
     $request = get_request_body();
-	$request["patientId"] = $this->userid;
-    $request["date"] = ($request["date"] == "" ? date('Y-m-d h:i A') : date('Y-m-d h:i A', strtotime($request["date"])));
+	$request["patientId"] = $this->user_id;
+    $request["datetime"] = ($request["datetime"] == "" ? date('Y-m-d h:i A') : date('Y-m-d h:i A', strtotime($request["datetime"])));
 	$output = str_replace(array("\r\n", "\n", "\r"),'',$request);
 	$jsonData = json_encode($output);
     $table_name = "vitals";
@@ -51,9 +49,9 @@ public function measurement_save()
 
 			///////------- For Adding Records
 			
-            $result = $this->Measurement_model->addData_patient_portal_changes($this->userid,$table_name,$change_type,$jsonData,$request['hx_id']);
+            $result = $this->Measurement_model->addData_patient_portal_changes($this->user_id,$table_name,$change_type,$jsonData,$request['hx_id']);
 			if($result ){
-				echo compileResponse(300, "<h1>Your Message has been sent to the clinic.<br/> please wait for them to review and respond.</h1>");
+				echo compileResponse(300, "Your Message has been sent to the clinic. Please wait for them to review and respond.");
 			}else{
 				echo compileResponse(500, "Bad Parameters!!!");
 			}

@@ -14,6 +14,18 @@ public function getDataFrom_form_vitals($pid,$request_id)
     return false;
     }
 }
+public function getAllDataFrom_form_vitals($pid)
+{
+    $sql = "SELECT *, vital_id as id FROM form_vitals where pid = ".$pid."";
+    
+    $query = $this->db->query($sql);
+    if($query->num_rows() > 0){
+        return($query->result_array());
+    }
+    else{
+    return false;
+    }
+}
 	
 public function getDataFrom_vitals_readings($pid,$request_id)
 {

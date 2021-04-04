@@ -118,23 +118,23 @@ public function surgical_list()
         }
     }
     
-    $result = $this->Surgical_model->getDataFromsurgicalhx($this->userid);
+    $result = $this->Surgical_model->getDataFromsurgicalhx($this->user_id);
     
-    $rows = array();
-    while ($r = $result){
-        // $myDateTimeExplode = explode(' ',$r['surg_date']);
-        // $r['mydatetime'] = $myDateTimeExplode[0].'T00:00:00.000Z';
-        // $r['surg_date'] = myDateOnly($r['surg_date']);
-        $rows[] = $r;
-    }
-    echo json_encode($rows);
+    // $rows = array();
+    // while ($r = $result){
+    //     // $myDateTimeExplode = explode(' ',$r['surg_date']);
+    //     // $r['mydatetime'] = $myDateTimeExplode[0].'T00:00:00.000Z';
+    //     // $r['surg_date'] = myDateOnly($r['surg_date']);
+    //     $rows[] = $r;
+    // }
+    echo json_encode($result);
 
 }
 //////////////////////////------- For Surgical/save.php --------/////////////////////////////////
 public function surgical_save()
 {
     $request = get_request_body();
-	$request["patientId"] = $this->userid;
+	$request["patientId"] = $this->user_id;
     $output = str_replace(array("\r\n", "\n", "\r"),'',$request);
 	$jsonData = json_encode($output);
     $table_name = "surgicalhx";
@@ -142,9 +142,9 @@ public function surgical_save()
 
 			///////------- For Adding Records
 			
-            $result = $this->Surgical_model->addData_patient_portal_changes($this->userid,$table_name,$change_type,$jsonData,$request['hx_id']);
+            $result = $this->Surgical_model->addData_patient_portal_changes($this->user_id,$table_name,$change_type,$jsonData,$request['hx_id']);
 			if($result ){
-				echo compileResponse(300, "<h1>Your Message has been sent to the clinic.<br/> please wait for them to review and respond.</h1>");
+				echo compileResponse(300, "Your Message has been sent to the clinic. Please wait for them to review and respond.");
 			}else{
 				echo compileResponse(500, "Bad Parameters!!!");
 			}

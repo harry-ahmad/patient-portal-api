@@ -69,7 +69,7 @@ public function editDx()
 
 			///////------- For Adding Records
 			
-            $result = $this->Measurement_model->addData_patient_portal_changes($this->userid,$table_name,$change_type,$jsonData,$request['hx_id']);
+            $result = $this->Measurement_model->addData_patient_portal_changes($this->user_id,$table_name,$change_type,$jsonData,$request['hx_id']);
 			if($result ){
 				echo compileResponse(300, "<h1>Your Message has been sent to the clinic.<br/> please wait for them to review and respond.</h1>");
 			}else{
@@ -84,26 +84,26 @@ public function editDx()
 //////////////////////////------- For Medical/list.php --------/////////////////////////////////
 public function medical_list()
 {
-
-    $rows = array();
+	$result = "";
+    // $rows = array();
     if (!isset($_REQUEST['dxID'])){
-        $result = $this->Medical_model->getDataFrom_medicalhx($this->userid);
-        while ($r = $result)
-				$rows[] = $r;
+        $result = $this->Medical_model->getDataFrom_medicalhx($this->user_id);
+        // while ($r = $result)
+		// 		$rows[] = $r;
         }else{
             $result = $this->Medical_model->getDataFromJoin_medicalhx($_REQUEST['dxID']);
-            while ($r = $result)
-            $rows[] = $r;
+            // while ($r = $result)
+            // $rows[] = $r;
         }
         
-    echo json_encode($rows);
+    echo json_encode($result);
 
 }
 //////////////////////////------- For Medical/save.php --------/////////////////////////////////
 public function medical_save()
 {
     $request = get_request_body();
-	$request["patientId"] = $this->userid;
+	$request["patientId"] = $this->user_id;
     $output = str_replace(array("\r\n", "\n", "\r"),'',$request);
 	$jsonData = json_encode($output);
     $table_name = "medicalhx";
@@ -111,9 +111,9 @@ public function medical_save()
 
 			///////------- For Adding Records
 			
-            $result = $this->Medical_model->addData_patient_portal_changes($this->userid,$table_name,$change_type,$jsonData,$request['hx_id']);
+            $result = $this->Medical_model->addData_patient_portal_changes($this->user_id,$table_name,$change_type,$jsonData,$request['hx_id']);
 			if($result ){
-				echo compileResponse(300, "<h1>Your Message has been sent to the clinic.<br/> please wait for them to review and respond.</h1>");
+				echo compileResponse(300, "Your Message has been sent to the clinic. Please wait for them to review and respond.");
 			}else{
 				echo compileResponse(500, "Bad Parameters!!!");
 			}
