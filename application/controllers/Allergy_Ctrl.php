@@ -12,15 +12,15 @@ class Allergy_Ctrl extends MY_Controller {
 
 //////////////////////////------- For allergy/list.php --------/////////////////////////////////
 public function getlist(){
-
-    $rows = array();
-    if(isset($_REQUEST['search']) && $_REQUEST['search'] == "search_allergy"){
+    
+    $post = get_request_body();    
+    if(isset($post['search']) && $post['search'] == "search_allergy"){
         $sessiontoken 		=  $this->script_sure_login();
         $searchAllergy = "";
-        if(isset($_POST['q_word']) && $_POST['q_word'] <> ""){
-            $searchAllergy = $_POST['q_word'][0];
-        }elseif(isset($_POST['searchValue']) && $_POST['searchValue'] <> ""){
-            $searchAllergy = $_POST['searchValue'];
+        if(isset($post['q_word']) && $post['q_word'] <> ""){
+            $searchAllergy = $post['q_word'][0];
+        }elseif(isset($post['searchValue']) && $post['searchValue'] <> ""){
+            $searchAllergy = $post['searchValue'];
         }
         if ($searchAllergy <> ""){
             $data = array(
@@ -68,14 +68,14 @@ public function getlist(){
         }
         return false;
     }
-    if (isset($_REQUEST['dataID']) && $_REQUEST['dataID'] <>""){
+    if (isset($post['dataID']) && $post['dataID'] <>""){
         
-        if($_REQUEST['dataID'] == 0){
+        if($post['dataID'] == 0){
             $rows["editdata"] = '0';
             $rows[] = $rows["editdata"];
         }else{
             // $result = $db->executeSQL("SELECT * FROM patient_allergies where pid =".$pid." and id=".$_REQUEST['dataID']);
-            $result = $this->Allergy_model->getPatient_allergies($this->user_id,$_REQUEST['dataID']);
+            $result = $this->Allergy_model->getPatient_allergies($this->user_id,$post['dataID']);
             $r = $result;
             $rows["editdata"] = '1';
             $rows[] = $r;
@@ -96,26 +96,26 @@ public function getlist(){
         $rows['message'] = '';
         // not done
         // $query = $db->executeSQL("select count(id) as total_changes, (select count(id) from patient_portal_changes where pid = ".$pid." and status = '0' and table_name = 'patient_allergies' and change_type = '1' and update_id = ".$_REQUEST['dataID'].") as pending_changes from patient_portal_changes where pid = ".$pid."");
-        $query = $this->Allergy_model->patient_portal_changes($this->user_id,$_REQUEST['dataID']);
+        $query = $this->Allergy_model->patient_portal_changes($this->user_id,$post['dataID']);
         $log = $query;
         if (count($log) > 0) {
             if($log['pending_changes'] > 0){
                 $rows['message'] = 'Your '.$log["pending_changes"].' change(s) regarding this allergy are pending by the medical staff.';
             }
         }
-    }elseif(isset($_REQUEST['param']) && $_REQUEST['param'] == "act"){
+    }elseif(isset($post['param']) && $post['param'] == "act"){
         // $result = $db->executeSQL("SELECT * FROM patient_allergies where pid =".$pid." and endDate is NULL");
         $result = $this->Allergy_model->getPat_allergies_nullendDate($this->user_id);
         while ($r = $result)
         $rows[] = $r;
-    }elseif(isset($_REQUEST['param']) && $_REQUEST['param'] == "inact"){
+    }elseif(isset($post['param']) && $post['param'] == "inact"){
         // $result = $db->executeSQL("SELECT * FROM patient_allergies where pid =".$pid." and endDate is not NULL");
         $result = $this->Allergy_model->getPat_allergies_NotnullendDate($this->user_id);
         while ($r = mysqli_fetch_assoc($result))
         $rows[] = $r;
-    }elseif(isset($_REQUEST['param']) && $_REQUEST['param'] == "severity"){
+    }elseif(isset($post['param']) && $post['param'] == "severity"){
         // $result = $db->executeSQL("SELECT severity_name FROM allergy_severities where severity_id =".$_REQUEST['id']);
-        $result = $this->Allergy_model->get_severity_nameByid($_REQUEST['id']);
+        $result = $this->Allergy_model->get_severity_nameByid($post['id']);
         while ($r = $result)
         $rows[] = $r;
     }else{

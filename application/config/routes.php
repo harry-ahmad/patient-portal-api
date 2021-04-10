@@ -88,6 +88,7 @@ $route['measurement_list']    = 'Measurement_Ctrl/measurement_list';
 $route['measurement_save']    = 'Measurement_Ctrl/measurement_save';
 //////----------surgical_Ctrl routes
 $route['surgical_list']    = 'Surgical_Ctrl/surgical_list';
+$route['surgical_search']    = 'Surgical_Ctrl/surgical_search';
 $route['surgical_save']    = 'Surgical_Ctrl/surgical_save';
 $route['delete_surg']      = 'Surgical_Ctrl/delete_surg';
 //////----------patient_Ctrl routes
@@ -100,6 +101,7 @@ $route['deleteDx']        = 'Medical_Ctrl/deleteDx';
 $route['deleteRx']        = 'Medical_Ctrl/deleteRx';
 $route['editDx']          = 'Medical_Ctrl/editDx';
 $route['medical_list']    = 'Medical_Ctrl/medical_list';
+$route['medical_search']  = 'Medical_Ctrl/medical_search';
 $route['medical_save']    = 'Medical_Ctrl/medical_save';
 
 ///////----------Dashboard_Ctrl routes

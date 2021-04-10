@@ -12,7 +12,22 @@ class Surgical_Ctrl extends MY_Controller {
 //////////////////////////------- For Surgical/list.php --------/////////////////////////////////
 public function surgical_list()
 {
-
+    $post = array();
+    if($this->input->method(true) == 'POST'){
+        $data = [];
+        array_push($data, array(
+                "id" => "1", "reaction_id" => "2", "name" => "Rash"
+            ));
+            array_push($data, array(
+                "id" => "2", "reaction_id" => "2", "name" => "LOL"
+                ));
+                array_push($data, array(
+                    "id" => "3", "reaction_id" => "2", "name" => "Hives"
+                    ));
+        echo json_encode($data);
+        exit;
+        $post = get_request_body();
+    }
     if(isset($_REQUEST['stype']) && $_REQUEST['stype'] == "search"){
         if($_REQUEST['param'] !== "")
             {
@@ -129,6 +144,28 @@ public function surgical_list()
     // }
     echo json_encode($result);
 
+}
+
+//////////////////////////------- For Surgical/search --------/////////////////////////////////
+
+public function surgical_search()
+{
+	$post = get_request_body();
+	if(isset($post['search']) && $post['search'] == "search_surgery"){
+		$search_tbl = 'procedures';
+		$search_term         = $post["searchValue"];
+		$select_qry     = "proc_id, proc_code, proc_name , CONCAT(proc_name ,' (', proc_code, ')') AS  display_description, category, charges, user_defined";
+		$like_search    = "proc_name LIKE '%$search_term%' OR proc_code LIKE '%$search_term%'";
+		$where          = "  AND category = 'Surgery' ";
+		$order_by       = "ORDER BY proc_name ASC";
+		$sql = "SELECT $select_qry "
+                            . "FROM  $search_tbl WHERE $like_search $where "
+                            . "$order_by ";			
+		$query = $this->db->query($sql);
+		$result = $query->result_array($query);                                         
+		echo json_encode($result);
+
+	}
 }
 //////////////////////////------- For Surgical/save.php --------/////////////////////////////////
 public function surgical_save()

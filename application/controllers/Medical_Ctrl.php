@@ -84,6 +84,36 @@ public function editDx()
 //////////////////////////------- For Medical/list.php --------/////////////////////////////////
 public function medical_list()
 {
+	$post = array();
+    if($this->input->method(true) == 'POST'){
+        $data = [];
+        $post = get_request_body();
+		if($post['search'] == "search_allergy"){
+        array_push($data, array(
+                "id" => "1", "reaction_id" => "2", "name" => "Rash"
+            ));
+            array_push($data, array(
+                "id" => "2", "reaction_id" => "2", "name" => "LOL"
+                ));
+                array_push($data, array(
+                    "id" => "3", "reaction_id" => "2", "name" => "Hives"
+                    ));
+        echo json_encode($data);
+		}
+		if($post['search'] == "search_medication_name"){
+			array_push($data, array(
+					"id" => "1", "reaction_id" => "2", "name" => "Name"
+				));
+				array_push($data, array(
+					"id" => "2", "reaction_id" => "2", "name" => "Med"
+					));
+					array_push($data, array(	
+						"id" => "3", "reaction_id" => "2", "name" => "Hives"
+						));
+			echo json_encode($data);
+			}
+        exit;
+    }
 	$result = "";
     // $rows = array();
     if (!isset($_REQUEST['dxID'])){
@@ -99,6 +129,29 @@ public function medical_list()
     echo json_encode($result);
 
 }
+
+//////////////////////////------- For Medical/search --------/////////////////////////////////
+
+public function medical_search()
+{
+	$post = get_request_body();
+	if(isset($post['search']) && $post['search'] == "search_diagnose"){
+		$search_tbl = 'diagnosis';
+		$search_term         = $post["searchValue"];
+		$select_qry     = "CONCAT(LONG_DESCRIPTION ,' (', DCODE, ')') as name, DCODE as icd, DCODE, LONG_DESCRIPTION, user_defined, id";
+		$like_search    = "(LONG_DESCRIPTION LIKE '%".$search_term."%' OR DCODE LIKE '%".$search_term."%')";
+		$where          = " AND active = '1' ";
+		$order_by       = "ORDER BY CASE WHEN LEFT(TRIM(LONG_DESCRIPTION), LENGTH('".$search_term."')) = '" . $search_term . "' THEN 1 ELSE 2 END";
+		$sql = "SELECT $select_qry "
+                            . "FROM  $search_tbl WHERE $like_search $where "
+                            . "$order_by ";			
+		$query = $this->db->query($sql);
+		$result = $query->result_array($query);                                         
+		echo json_encode($result);
+
+	}
+}
+
 //////////////////////////------- For Medical/save.php --------/////////////////////////////////
 public function medical_save()
 {
