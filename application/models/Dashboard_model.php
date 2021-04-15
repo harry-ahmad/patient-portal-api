@@ -1,6 +1,6 @@
 <?php 
 
-Class Medical_model extends MY_Model{
+Class Dashboard_model extends MY_Model{
 
 public function dynamic_query_execution($qry)
 {

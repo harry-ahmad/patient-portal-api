@@ -156,7 +156,7 @@ public function family_list()
 public function family_save()
 {
     $request = get_request_body();
-	$request["patientId"] = $this->userid;
+	$request["patientId"] = $this->user_id;
     $output = str_replace(array("\r\n", "\n", "\r"),'',$request);
 	$jsonData = json_encode($output);
     $table_name = "familyhx";
@@ -164,7 +164,7 @@ public function family_save()
 
 			///////------- For Adding Records
 			
-            $result = $this->Family_model->addData_patient_portal_changes($this->userid,$table_name,$change_type,$jsonData,$request['hx_id']);
+            $result = $this->Family_model->addData_patient_portal_changes($this->user_id,$table_name,$change_type,$jsonData,$request['hx_id']);
 			if($result ){
 				echo compileResponse(300, "<h1>Your Message has been sent to the clinic.<br/> please wait for them to review and respond.</h1>");
 			}else{

@@ -42,4 +42,25 @@ public function Insurance_list()
 
 }
 
+public function insurance_save()
+{
+    $request = get_request_body();
+	$request["patientId"] = $this->user_id;
+    $output = str_replace(array("\r\n", "\n", "\r"),'',$request);
+	$jsonData = json_encode($output);
+    $table_name = "insurance_data";
+	$change_type = $request['editID'];
+
+			///////------- For Adding Records
+			
+            $result = $this->Insurance_model->addData_patient_portal_changes($this->user_id,$table_name,$change_type,$jsonData,$request['hx_id']);
+			if($result ){
+				echo compileResponse(300, "<h1>Your Message has been sent to the clinic.<br/> please wait for them to review and respond.</h1>");
+			}else{
+				echo compileResponse(500, "Bad Parameters!!!");
+			}
+			///////------- For Adding Records
+
+}
+
 }    

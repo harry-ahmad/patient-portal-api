@@ -77,8 +77,12 @@ $route['bmi_save']    = 'Bmi_Ctrl/bmi_save';
 $route['cholesterol_list']    = 'Cholesterol_Ctrl/cholesterol_list';
 $route['cholesterol_save']    = 'Cholesterol_Ctrl/cholesterol_save';
 
+//////----------Dashboard_Ctrl routes
+$route['dashboard']    = 'Dashboard_Ctrl/dashboard';
+
 //////----------Insurance_Ctrl routes
 $route['insurance_list']    = 'Insurance_Ctrl/insurance_list';
+$route['insurance_save']    = 'Insurance_Ctrl/insurance_save';
 
 //////----------Family_Ctrl routes
 $route['family_list']    = 'Family_Ctrl/family_list';

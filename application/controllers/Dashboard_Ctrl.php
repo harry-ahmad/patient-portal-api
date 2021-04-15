@@ -13,7 +13,7 @@ class Dashboard_Ctrl extends MY_Controller {
 
 public function dashboard(){
     $query = $query2 = "";
-    $pid = $this->userid;
+    $pid = $this->user_id;
     //Allergy
 		if ($_REQUEST['type'] == 'allergy') {
 			$query = "select name from patient_allergies where endDate IS NULL and pid = ".$pid." limit 10";
@@ -33,6 +33,7 @@ public function dashboard(){
 	
 		$result = $this->Dashboard_model->dynamic_query_execution($query);
 		$rows = array();
+		print_r($rows);
 		while ($r = $result)
 			$rows[] = $r;
 
