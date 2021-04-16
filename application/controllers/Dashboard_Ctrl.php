@@ -22,7 +22,7 @@ public function dashboard(){
 		} else if ($post['type'] == 'medical') {
 			$query = "select *, IF(active = '1','Yes','No') as activeMed from medicalhx where active = 1 and pid=".$pid." limit 10";		
 		} else if ($post['type'] == 'bp') {
-			$query = "select *,MonthName(date) from form_vitals where pid = ".$pid." order by date asc limit 10";
+			$query = "select *,MonthName(date) from form_vitals where pid = ".$pid." and date != 0 order by date asc limit 10";
 			$query2 = "select *,MonthName(date) from vitals_readings where pid = ".$pid." and vital_type = 'bp' order by date asc limit 10";
 		} else if ($post['type'] == 'bmi') {
 			$query = "select *,MonthName(date) from form_vitals where pid = ".$pid." order by date asc limit 5";
