@@ -13,7 +13,9 @@ class Allergy_Ctrl extends MY_Controller {
 //////////////////////////------- For allergy/list.php --------/////////////////////////////////
 public function getlist(){
     
-    $post = get_request_body();    
+	if($this->input->method(true) == 'POST'){
+		$post = get_request_body();    
+	}
     if(isset($post['search']) && $post['search'] == "search_allergy"){
         $sessiontoken 		=  $this->script_sure_login();
         $searchAllergy = "";
