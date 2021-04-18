@@ -32,11 +32,13 @@ public function dashboard(){
 		}
 
 	$result = [];
-		$result1 = $this->Dashboard_model->dynamic_query_execution($query);
+		$result1 = $this->Dashboard_model->dynamic_query_execution($query);	
 		// array_merge($result, $result1);
 		if($query2 <> ""){
-			$result2 = $this->Dashboard_model->dynamic_query_execution($query2);
+			$result2 = $this->Dashboard_model->dynamic_query_execution($query2);			
+		if($result2 <> ""){
 			$result1 = array_merge($result1, $result2);
+		}			
 		}
 	
 		echo json_encode($result1);
