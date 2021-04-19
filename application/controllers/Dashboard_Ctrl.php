@@ -25,7 +25,7 @@ public function dashboard(){
 			$query = "select *,MonthName(date) from form_vitals where pid = ".$pid." and date != 0 order by date asc limit 10";
 			$query2 = "select *,MonthName(date) from vitals_readings where pid = ".$pid." and vital_type = 'bp' order by date asc limit 10";
 		} else if ($post['type'] == 'bmi') {
-			$query = "select *,MonthName(date) from form_vitals where pid = ".$pid." order by date asc limit 5";
+			$query = "select *,MonthName(date) from form_vitals where pid = ".$pid." and date != 0 order by date asc limit 5";
 			$query2 = "select *,MonthName(date) from vitals_readings where pid = ".$pid." and vital_type = 'BMI' order by date asc limit 5";
 		} else if ($post['type'] == 'cholestrol') {
 			$query = "select * from patient_cholesterol_data a where a.pid = ".$pid." order by a.cholesterol_id desc limit 5";
