@@ -43,8 +43,8 @@ public function AddRecordsTo_patient_portal_changes($pid,$table_name,$change_typ
 
 public function appoitment_list($pid){
 
-    $sql = "SELECT 
-    concat('{title:\"',e.title,'\",start:\"',e.event_date,'T',e.start_time,'\",end:\"',e.event_date,'T',e.end_time,'\"}') event 
+    $sql = "SELECT title,event_date,start_time,end_time
+    -- concat('{title:\"',e.title,'\",start:\"',e.event_date,'T',e.start_time,'\",end:\"',e.event_date,'T',e.end_time,'\"}') event 
     FROM postcalendar_events e WHERE CAST(e.time as Date) = CURDATE() and patient_id=".$pid;
     
     $query = $this->db->query($sql);

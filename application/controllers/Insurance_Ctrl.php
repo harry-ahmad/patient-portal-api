@@ -44,22 +44,67 @@ public function Insurance_list()
 
 public function insurance_save()
 {
-    $request = get_request_body();
-	$request["patientId"] = $this->user_id;
-    $output = str_replace(array("\r\n", "\n", "\r"),'',$request);
-	$jsonData = json_encode($output);
-    $table_name = "insurance_data";
-	$change_type = $request['editID'];
 
-			///////------- For Adding Records
-			
-            $result = $this->Insurance_model->addData_patient_portal_changes($this->user_id,$table_name,$change_type,$jsonData,$request['hx_id']);
-			if($result ){
-				echo compileResponse(300, "<h1>Your Message has been sent to the clinic.<br/> please wait for them to review and respond.</h1>");
-			}else{
-				echo compileResponse(500, "Bad Parameters!!!");
-			}
-			///////------- For Adding Records
+	$_POST["patientId"] = $this->user_id;
+    $change_type = $_POST['editID'];
+    $table_name = "insurance_data";
+    $file_paths = [];
+    if(isset($_FILES['file']) && count($_FILES['file']) > 0){        
+      
+        $directory = 'upload/patient_'.$_POST["patientId"];
+        $db_path = 'patient_portal_api/include/portal_data/patient_'.$_POST["patientId"];
+        if(!is_dir($directory))
+          mkdir($directory, 0777, true);
+        
+        // The posted data, for reference
+        foreach ($_FILES['file']['name'] as $key => $value) {                    
+            $file = $_FILES['file']['tmp_name'][$key];
+            $name = $value;
+            print_r($file,$name);
+            $file_ext = explode('.',strtolower($name));
+            $file_ext = end($file_ext);
+            $extensions = array("jpeg","jpg","png","bmp","zip","pdf","doc","docx","txt");
+            
+            if(in_array($file_ext,$extensions) === false){
+              response(array(
+                "status" => BAD_DATA,
+                "message" => "Extension (".$file_ext.") not allowed."
+               ), true);
+            }
+            $mbSize = '';
+            ///////------- New File Name
+            $file_name = readyToLink(getImageName($name));
+            $file_name .= '-'.substr(time(),-3).'.'.$file_ext;
+            
+            if(move_uploaded_file($file, $directory."/".basename($file_name))) {
+              array_push($file_paths, $db_path."/".$file_name);
+            }
+            else {
+              exit('<div class="alert errorMsg">'.$errors.'</div>');
+            }
+          }
+          $_FILES['file'] = implode(',', $file_paths);
+    }
+    
+    $formData = str_replace(array("\r\n", "\n", "\r"),'',$_POST);
+    $formData['files'] = str_replace(array("\r\n", "\n", "\r"),'',$_FILES);    
+	$jsonData = json_encode($formData);    	
+
+    ///////------- For Adding Records
+    
+    $result = $this->Insurance_model->addData_patient_portal_changes($this->user_id,$table_name,$change_type,$jsonData,$_POST['hx_id']);
+    if($result> 0){
+        response(array(
+            "status" => SUCCESS,
+            "message" => 'Your Message has been sent to the clinic. Please wait for them to review and respond'
+        ));
+        }else{
+        response(array(
+            "status" => BAD_DATA,
+            "message" => 'Error while saving the record'
+            ), true);
+        }
+    ///////------- For Adding Records
 
 }
 

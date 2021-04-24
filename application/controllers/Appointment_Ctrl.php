@@ -67,12 +67,9 @@ public function appoitment_list() {
 // FROM 
 // postcalendar_events e WHERE CAST(e.time as Date) = CURDATE() and patient_id=".$pid;
 
-$result = $this->Appointment_model->appoitment_list($this->userid);
+$result = $this->Appointment_model->appoitment_list($this->user_id);
 
-$rows = array();
-while ($r = $result)
-$rows[] = $r;
-echo json_encode($rows);
+echo json_encode($result);
 }
 //////////////////////////------- For appointment/list.php --------/////////////////////////////////
 
