@@ -21,7 +21,7 @@ public function generate_report(){
     $data['username'] = $username['username'];
     $html = $this->load->view("reports/dashboard_report.php", $data, true);   
 	$path = generate_pdf_report($html);
-    echo $path;
+    echo json_encode(['data'=>$path]);
 }
 
 }

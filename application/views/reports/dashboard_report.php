@@ -91,7 +91,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	}
 </style>
 <div style="width:680px;font-family:'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', 'DejaVu Sans', Verdana, sans-serif;font-size:10px;">
-    <div class="topBar" style="width:100%;text-align:center;font-size:13px;"><h2><?php echo $username; ?> Demographic Report</h2></div>
+    <div class="topBar" style="width:100%;text-align:center;font-size:13px;"><h2><?php echo $username; ?> Measurements Report</h2></div>
     <div class="innerMainHeadings"><h3 style="margin:0px;">BLOOD PRESSURE</h3></div>
     <table cellpadding="0" cellspacing="0" style="margin-bottom:10px; border:1px solid #888888; width: 100%;">
         <thead>

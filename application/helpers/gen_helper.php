@@ -261,8 +261,8 @@ if(!function_exists('readyToLink'))
 			{
 				mkdir($upload_dir, 0777, TRUE);	    
 			}
-			$path 				= time()."report.pdf";
-			$pdfFilePath 		= FCPATH."$upload_dir/".$path;
+			$path 				= "$upload_dir/".time()."report.pdf";
+			$pdfFilePath 		= FCPATH.$path;
 			$data['page_title'] = 'PDF'; // pass data to the view
 
 			if (file_exists($pdfFilePath) == FALSE)
