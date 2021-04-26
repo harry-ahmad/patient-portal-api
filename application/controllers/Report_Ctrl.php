@@ -19,8 +19,9 @@ public function generate_report(){
     $data['allergy'] = $Dashboard_Ctrl->get_dashboard_data('allergy',$pid);
     $data['bmi'] = $Dashboard_Ctrl->get_dashboard_data('bmi',$pid);
     $data['username'] = $username['username'];
-    $html = $this->load->view("reports/dashboard_report.php", $data, true);
-    print_r($html);
+    $html = $this->load->view("reports/dashboard_report.php", $data, true);   
+	$path = generate_pdf_report($html);
+    echo $path;
 }
 
 }

@@ -248,4 +248,34 @@ if(!function_exists('readyToLink'))
 		}
 	}
 
+	if(!function_exists('generate_pdf_report'))
+	{
+		///////------- Generating PDF File
+		function generate_pdf_report($html)
+		{
+			$CI = & get_instance();
+			$pid = $CI->user_id;
+			$upload_dir = 'upload/patient_'.$pid;
+    		$upload_path = 'upload/patient_'.$pid;
+			if(!file_exists($upload_path))
+			{
+				mkdir($upload_dir, 0777, TRUE);	    
+			}
+			$path 				= time()."report.pdf";
+			$pdfFilePath 		= FCPATH."$upload_dir/".$path;
+			$data['page_title'] = 'PDF'; // pass data to the view
+
+			if (file_exists($pdfFilePath) == FALSE)
+			{
+				// Generating PDF From Below code
+				$CI->load->library('m_pdf');
+				$pdf = $CI->m_pdf->load();
+				$pdf->SetFooter('|{PAGENO}|'.date(DATE_RFC822)); // Add a footer for good measure 
+				$pdf->WriteHTML($html); // write the HTML into the PDF
+				$pdf->Output($pdfFilePath, 'F'); // save to file because we can
+			}
+			return $path;
+		}
+	}
+
 ?>
