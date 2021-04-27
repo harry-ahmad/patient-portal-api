@@ -52,6 +52,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'Login_Ctrl';
 $route['login']   		     = 'Login_Ctrl/check_login';
 $route['logout']   		     = 'Login_Ctrl/logout_user';
+
+//////----------OTP_Ctrl routes
+$route['resendOTP']   		 = 'OTP_Ctrl/send_OTP';
+$route['verifyOTP']   		 = 'OTP_Ctrl/verifyOTP';
+
 //////----------Allergy_Ctrl routes
 $route['getlist']   		 = 'Allergy_Ctrl/getlist';
 $route['save']   		     = 'Allergy_Ctrl/save';

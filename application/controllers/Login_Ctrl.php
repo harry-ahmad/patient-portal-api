@@ -63,21 +63,37 @@ class Login_Ctrl extends CI_Controller {
 					$password = $_POST["password"];
 					$status = '-1';
 					$row = authorize($this->auth["table"], $this->auth["fields"], $this->auth["username_field"], $this->auth["password_field"], $this->auth["id_field"], $user_name , $password , $this->auth["service_name"], $this->auth["cookie_name"]);
+					if($row){
+						$postData = $_POST;
+						$postData['ph_no'] = $row['phone_cell'];
+						$postData['pid'] = $row['pid'];
+						$this->send_OTP($postData);
+					}
+					
 					if ($row['system_password'] > 0) {
 						$status = "2";
 					}else{
 						$status = "1";
 					}
-					response(["status" => $status, "data" => $row]);
+					response(["status" => $status, "data" => $row, "message" => "Code has been sent to " . $row['phone_cell']]);
 					return;
 				}
 			}catch(exception $e){
+				print_r($e);
 				 response(array(
 					"code" => BAD_CREDENTIALS,
 					"message" => 'BAD CREDENTIALS'
 				), true);
 			}
 		}
+	}
+
+	public function send_OTP($request){      
+        $data = array(
+            'otp' => $request['token'],
+            );  
+		$this->db->where('pid',$request['pid']);
+		$this->db->update('patient_data', $data);        
 	}
 
 	public function logout_user(){
