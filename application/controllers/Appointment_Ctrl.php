@@ -71,6 +71,27 @@ $result = $this->Appointment_model->appoitment_list($this->user_id);
 
 echo json_encode($result);
 }
+
+public function appoitment_save()
+{
+    $request = get_request_body();
+	$request["patientId"] = $this->user_id;
+    $output = str_replace(array("\r\n", "\n", "\r"),'',$request);
+	$jsonData = json_encode($output);
+    $table_name = "postcalendar_events";
+	$change_type = $request['editID'];
+
+			///////------- For Adding Records
+			
+            $result = $this->Appointment_model->AddRecordsTo_patient_portal_changes($this->user_id,$table_name,$change_type,$jsonData,$request['hx_id']);
+			if($result ){
+				echo compileResponse(300, "Your Message has been sent to the clinic. Please wait for them to review and respond.");
+			}else{
+				echo compileResponse(500, "Bad Parameters!!!");
+			}
+			///////------- For Adding Records
+
+}
 //////////////////////////------- For appointment/list.php --------/////////////////////////////////
 
 
