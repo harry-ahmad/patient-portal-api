@@ -248,6 +248,74 @@ if(!function_exists('readyToLink'))
 		}
 	}
 
+	if ( !function_exists('ClearPhoneNumber')){
+		function ClearPhoneNumber($phoneNumber){
+			if($phoneNumber != ""){
+				include(APPPATH.'third_party/sms_composer/vendor/autoload.php');
+				$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+				$phoneNumberObject = $phoneUtil->parse($phoneNumber, COUNTRY_CODE);
+				return $phoneUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
+			}else{
+				return "";
+			}
+		}
+	}
+
+	///----General Function for SMS
+	if(!function_exists("send_sms_helper")){
+		function send_sms_helper($to,$msg, $param = array()){
+			//echo $msg; exit;
+			$CI = & get_instance();
+			$to = ClearPhoneNumber($to);
+			//echo $to; exit;
+			// $CI->load->model('settings/Settings_model');
+			// $res = $CI->Settings_model->get_system_setting("sms",1);
+			
+			// if($res->num_rows() > 0){
+			// 	if($res->num_rows() > 1) // in case of multiple SMS APIs
+			// 	{
+			// 		$row = '';
+			// 		$result = $res->result();
+			// 		foreach($result as $rec){
+			// 			if($rec->is_default=='1')
+			// 				$row = $rec;
+			// 		}
+			// 		if($row == ''){$row = $result[0];}
+			// 	}else{
+			// 		$row = $res->row();
+			// 	}
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL,"https://rest.nexmo.com/sms/json");
+				curl_setopt($ch, CURLOPT_POST, 1);
+				curl_setopt($ch, CURLOPT_POSTFIELDS,
+							http_build_query(
+							[
+								'api_key' 		=> "",
+								'api_secret' 	=> "",
+								'to' 			=> $to,
+								'from' 			=> 'EZMR',
+								'text' 			=> $msg
+							]));
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				$output = curl_exec($ch);
+				curl_close($ch);
+				
+				$sms_log = array(
+					'from_send' =>  $row->company_name,
+					'to_send'   =>  $to,
+					'msg'   	=>  $msg,
+					'type'   	=> 'sms',
+					'date'		=> date('Y-m-d h:i:s'),
+					'attachment'=> $output 
+				);
+				// $CI->Settings_model->sms_fax_log($sms_log);
+				$output = json_decode($output);
+				return $output;
+			// }
+		}
+	}
+
+
 	if(!function_exists('generate_pdf_report'))
 	{
 		///////------- Generating PDF File
