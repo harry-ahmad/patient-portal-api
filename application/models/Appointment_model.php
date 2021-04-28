@@ -37,7 +37,7 @@ public function AddRecordsTo_patient_portal_changes($pid,$table_name,$change_typ
         return true;
     }
     else{
-    return false;
+        return false;
     }
 }
 
@@ -52,7 +52,7 @@ public function appoitment_list($pid){
         return($query->result_array());
     }
     else{
-    return false;
+        return [];
     }
 }
 
