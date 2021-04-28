@@ -186,7 +186,7 @@ function generate_jwt_cookie($username_value, $id_value, $service_name, $cookie_
   );
   // Change the first NULL below to set a domain, change the second NULL below
   // to make this only transmit over HTTPS
-  setcookie($cookie_name, json_encode($cookie), 0, "/", NULL, NULL );
+  setcookie($cookie_name, json_encode($cookie), 0, "/", NULL, NULL, TRUE );
 }
 
 /**

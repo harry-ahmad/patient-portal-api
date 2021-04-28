@@ -54,10 +54,10 @@ class Login_Ctrl extends CI_Controller {
 		}else{
 			try{
 				header("Access-Control-Allow-Credentials: true");
-				if(check_jwt_cookie($this->auth["service_name"], $this->auth["cookie_name"])){
-					response(regenerate_jwt_cookie($this->auth["service_name"], $this->auth["cookie_name"]));
-					return;
-				} else {
+				// if(check_jwt_cookie($this->auth["service_name"], $this->auth["cookie_name"])){
+				// 	response(regenerate_jwt_cookie($this->auth["service_name"], $this->auth["cookie_name"]));
+				// 	return;
+				// } else {
 					$_POST = get_request_body();
 					$user_name = $_POST["username"];
 					$password = $_POST["password"];
@@ -77,7 +77,7 @@ class Login_Ctrl extends CI_Controller {
 					}
 					response(["status" => $status, "data" => $row, "message" => "Code has been sent to " . $row['phone_cell']]);
 					return;
-				}
+				// }
 			}catch(exception $e){
 				print_r($e);
 				 response(array(
