@@ -56,6 +56,7 @@ $route['logout']   		     = 'Login_Ctrl/logout_user';
 //////----------OTP_Ctrl routes
 $route['resendOTP']   		 = 'OTP_Ctrl/send_OTP';
 $route['verifyOTP']   		 = 'OTP_Ctrl/verifyOTP';
+$route['changePassword']   	 = 'OTP_Ctrl/changePassword';
 
 //////----------Allergy_Ctrl routes
 $route['getlist']   		 = 'Allergy_Ctrl/getlist';

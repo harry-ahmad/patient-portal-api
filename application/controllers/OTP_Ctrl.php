@@ -65,4 +65,34 @@ class OTP_Ctrl extends MY_Controller {
         }
     }
 
+    public function changePassword(){
+        $request = get_request_body();
+        // $password = generate_jwt($request['password'])        
+        $secret_key = 'M@#TTOO&*hj88_-##^2';
+        $secret_iv = '&^%YYUHfr%tII#UOT2';
+
+        $output = false;
+        $encrypt_method = "AES-256-CBC";
+        $key = hash( 'sha256', $secret_key );
+        $iv = substr( hash( 'sha256', $secret_iv ), 0, 16 );
+        $password = base64_encode( openssl_encrypt( $request['password'], $encrypt_method, $key, 0, $iv ) );
+        $data = array(
+            'system_password' => '1',
+            'portal_password' => $password
+            );  
+		$this->db->where('pid',$this->user_id);
+		$this->db->update('patient_data', $data);                    
+        if($this->db->trans_status() == 1){
+            response(array(
+                "code" => SUCCESS,
+                "message" => "Password Successfully Changed!"
+            ));
+        }else{
+            response(array(
+                "code" => BAD_CREDENTIALS,
+                "message" => 'BAD CREDENTIALS'
+            ), true);
+        }
+    }
+
 }

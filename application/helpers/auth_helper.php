@@ -59,6 +59,18 @@ function password_verify_match($password, $hash)
 		return false;
 	}
 
+function generate_jwt($password){  
+  $secret_key = 'M@#TTOO&*hj88_-##^2';
+  $secret_iv = '&^%YYUHfr%tII#UOT2';
+
+  $output = false;
+  $encrypt_method = "AES-256-CBC";
+  $key = hash( 'sha256', $secret_key );
+  $iv = substr( hash( 'sha256', $secret_iv ), 0, 16 );
+  $qEncoded = base64_encode( openssl_encrypt( $password, $encrypt_method, $key, 0, $iv ) );
+  return $qEncoded;
+}
+
 function user_log($user_detail){
 	$CI = & get_instance();
 	$ua = getBrowser();
