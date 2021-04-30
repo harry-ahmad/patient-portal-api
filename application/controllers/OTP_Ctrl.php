@@ -10,18 +10,20 @@ class OTP_Ctrl extends MY_Controller {
 
     public function send_OTP(){      
         $request = get_request_body();
-       
+        // $otpService = send_sms_helper($request['ph_no'],"Your OTP for Patient Portal is " . $request['token'])        
         $data = array(
             'otp' => $request['token'],
             );  
 		$this->db->where('pid',$this->user_id);
 		$this->db->update('patient_data', $data);
         if($this->db->affected_rows() > 0){
-            // $otpService = send_sms_helper($request['ph_no'],"Your OTP for Patient Portal is " . $request['token'])
-            response(array(
-                "code" => SUCCESS,
-                "message" => "Code has been sent to " . $request['ph_no']
-            ));
+            if(send_sms_helper($request['ph_no'],"Your OTP for Patient Portal is " . $request['token'])){
+                response(array(
+                    "code" => SUCCESS,
+                    "message" => "Code has been sent to " . $request['ph_no']
+                ));
+            }
+            // print_r($otpService);            
         }else{
             response(array(
                 "code" => BAD_CREDENTIALS,
@@ -32,6 +34,7 @@ class OTP_Ctrl extends MY_Controller {
 
     public function verifyOTP(){
         $request = get_request_body();
+        // print_r($request);
 		$this->db->select('*');
         $this->db->where('otp',$request['otp']);
 		$this->db->from('patient_data');
@@ -43,7 +46,6 @@ class OTP_Ctrl extends MY_Controller {
             $this->db->where('pid',$this->user_id);
             $this->db->update('patient_data', $data);
             if($this->db->affected_rows() > 0){
-                // $otpService = send_sms_helper($request['ph_no'],"Your OTP for Patient Portal is " . $request['token'])
                 $row = $query->row_array();
                 if ($row['system_password'] > 0) {
                     $status = "2";

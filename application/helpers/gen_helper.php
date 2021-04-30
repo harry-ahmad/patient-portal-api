@@ -253,7 +253,7 @@ if(!function_exists('readyToLink'))
 			if($phoneNumber != ""){
 				include(APPPATH.'third_party/sms_composer/vendor/autoload.php');
 				$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-				$phoneNumberObject = $phoneUtil->parse($phoneNumber, COUNTRY_CODE);
+				$phoneNumberObject = $phoneUtil->parse($phoneNumber, 'GB');
 				return $phoneUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
 			}else{
 				return "";
@@ -301,7 +301,7 @@ if(!function_exists('readyToLink'))
 				curl_close($ch);
 				
 				$sms_log = array(
-					'from_send' =>  $row->company_name,
+					'from_send' =>  'EZMR',
 					'to_send'   =>  $to,
 					'msg'   	=>  $msg,
 					'type'   	=> 'sms',
@@ -310,6 +310,7 @@ if(!function_exists('readyToLink'))
 				);
 				// $CI->Settings_model->sms_fax_log($sms_log);
 				$output = json_decode($output);
+				// print_r($output);
 				return $output;
 			// }
 		}

@@ -68,15 +68,17 @@ class Login_Ctrl extends CI_Controller {
 						$postData['ph_no'] = $row['phone_cell'];
 						$postData['pid'] = $row['pid'];
 						$this->send_OTP($postData);
-					}
-					
-					if ($row['system_password'] > 0) {
-						$status = "2";
-					}else{
-						$status = "1";
-					}
-					response(["status" => $status, "data" => $row, "message" => "Code has been sent to " . $row['phone_cell']]);
-					return;
+						if(send_sms_helper($postData['ph_no'],"Your OTP for Patient Portal is " . $postData['token'])){
+							if ($row['system_password'] > 0) {
+								$status = "2";
+							}else{
+								$status = "1";
+							}
+							response(["status" => $status, "data" => $row, "message" => "Code has been sent to " . $row['phone_cell']]);
+							return;
+						}
+
+					}										
 				// }
 			}catch(exception $e){
 				print_r($e);
