@@ -6,6 +6,7 @@ class Medical_Ctrl extends MY_Controller {
     public function __construct(){
 		parent::__construct();
 		$this->load->model('Medical_model');
+		$this->load->model('Patient_Portal_Changes_model');
 
     }
     
@@ -125,7 +126,9 @@ public function medical_list()
             // while ($r = $result)
             // $rows[] = $r;
         }
-        
+		$result1 = $this->Patient_Portal_Changes_model->get_patient_data('medicalhx');
+		
+		array_push($result, $result1);    
     echo json_encode($result);
 
 }

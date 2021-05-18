@@ -71,6 +71,7 @@ $result = $this->Appointment_model->appoitment_list($this->user_id);
 
 echo json_encode($result);
 }
+//////////////////////////------- For appointment/list.php --------/////////////////////////////////
 
 public function appoitment_save()
 {
@@ -92,7 +93,23 @@ public function appoitment_save()
 			///////------- For Adding Records
 
 }
-//////////////////////////------- For appointment/list.php --------/////////////////////////////////
+///////------- For Search Providers
+public function appoitment_search()
+{
+	$post = get_request_body();
+	$search_tbl = 'providers';
+	$search_term         = $post["searchValue"];
+	$select_qry     = "provider_id, title, first_name, last_name, clinic_name";
+	$like_search    = "(first_name LIKE '%".$search_term."%' OR last_name LIKE '%".$search_term."%' OR clinic_name LIKE '%".$search_term."%')";	
+	$order_by       = "ORDER BY CASE WHEN LEFT(TRIM(first_name), LENGTH('".$search_term."')) = '" . $search_term . "' THEN 1 ELSE 2 END";
+	$sql = "SELECT $select_qry "
+						. "FROM  $search_tbl WHERE $like_search "
+						. "$order_by ";			
+	$query = $this->db->query($sql);
+	$result = $query->result_array($query);                                         
+	echo json_encode($result);
+}
+///////------- For Search Providers
 
 
 
