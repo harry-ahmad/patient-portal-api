@@ -63,7 +63,7 @@ class Login_Ctrl extends CI_Controller {
 					$password = $_POST["password"];
 					$status = '-1';
 					$row = authorize($this->auth["table"], $this->auth["fields"], $this->auth["username_field"], $this->auth["password_field"], $this->auth["id_field"], $user_name , $password , $this->auth["service_name"], $this->auth["cookie_name"]);
-					if($row){
+					if(sizeOf($row) > 0){
 						$postData = $_POST;
 						$postData['ph_no'] = $row['phone_cell'];
 						$postData['pid'] = $row['pid'];
@@ -81,7 +81,7 @@ class Login_Ctrl extends CI_Controller {
 					}										
 				// }
 			}catch(exception $e){
-				print_r($e);
+				// print_r($e);
 				 response(array(
 					"code" => BAD_CREDENTIALS,
 					"message" => 'BAD CREDENTIALS'
