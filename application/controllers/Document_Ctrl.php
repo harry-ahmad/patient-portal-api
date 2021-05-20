@@ -36,7 +36,8 @@ public function save_document()
       $myDate = date("Y-m-d H:i:s");
   
     $directory = 'upload/patient_'.$pid;
-    $db_path = 'patient_portal_api/include/portal_data/patient_'.$pid;
+    $db_path = 'upload/patient_'.$pid;
+    // $db_path = 'patient_portal_api/include/portal_data/patient_'.$pid;
     if(!is_dir($directory))
       mkdir($directory, 0777, true);
     
@@ -84,8 +85,9 @@ public function save_document()
     // }
     
     $_FILES['file'] = implode(',', $file_paths);
-    $output = str_replace(array("\r\n", "\n", "\r"),'',$_FILES);
-    $jsonData = json_encode($output);
+    $output = str_replace(array("\r\n", "\n", "\r"),'',$_POST);
+    $output['file'] = str_replace(array("\r\n", "\n", "\r"),'',$_FILES);
+    $jsonData = json_encode($output);    
     //echo'<pre>',count($jsonData);print_r($jsonData);exit();
     ///////------- For Adding Records
     $result = $this->db->query(
