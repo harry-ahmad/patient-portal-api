@@ -6,6 +6,7 @@ class Document_Ctrl extends MY_Controller {
     public function __construct(){
 		parent::__construct();
 		$this->load->model('Document_model');
+		$this->load->model('Patient_Portal_Changes_model');
 
     }
     
@@ -13,6 +14,9 @@ class Document_Ctrl extends MY_Controller {
 public function document_list()
 {
     $result = $this->Document_model->getDataFrom_document($this->user_id);
+    $result1 = $this->Patient_Portal_Changes_model->get_patient_data('documents');
+		// $merged_arr = array_merge($result,$result1);
+    array_push($result, $result1);   
     echo json_encode($result);        
 }
 
