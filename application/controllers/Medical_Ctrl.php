@@ -126,10 +126,9 @@ public function medical_list()
             // while ($r = $result)
             // $rows[] = $r;
         }
-		$result1 = $this->Patient_Portal_Changes_model->get_patient_data('medicalhx');
-		$merged_arr = array_merge($result,$result1);		
-		// array_push($result, $result1);    
-    echo json_encode($merged_arr);
+		$result1 = $this->Patient_Portal_Changes_model->get_patient_data('medicalhx');			
+		array_push($result, $result1);    
+    echo json_encode($result);
 
 }
 

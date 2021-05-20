@@ -6,6 +6,7 @@ class Family_Ctrl extends MY_Controller {
     public function __construct(){
 		parent::__construct();
 		$this->load->model('Family_model');
+		$this->load->model('Patient_Portal_Changes_model');
 
     }
     
@@ -24,6 +25,9 @@ public function family_list()
                     while ($r = $result)
 							$diagnosis[] = $r['2'];
 				}
+				$result1 = $this->Patient_Portal_Changes_model->get_patient_data('familyhx');
+				print_r($result1,'adasd');			
+				array_push($diagnosis, $result1);    
 				echo json_encode($diagnosis);
 				return false;
 		} else {
@@ -148,8 +152,9 @@ public function family_list()
 				
 		}
 	}
-
-	echo json_encode($result);
+	$result1 = $this->Patient_Portal_Changes_model->get_patient_data('familyhx');		
+	array_push($result, $result1);    
+	echo json_encode($result);	
 
 }
 //////////////////////////------- For Family/save.php --------/////////////////////////////////

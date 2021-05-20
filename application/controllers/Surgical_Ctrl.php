@@ -6,6 +6,7 @@ class Surgical_Ctrl extends MY_Controller {
     public function __construct(){
 		parent::__construct();
 		$this->load->model('Surgical_model');
+		$this->load->model('Patient_Portal_Changes_model');
 
     }
     
@@ -142,6 +143,8 @@ public function surgical_list()
     //     // $r['surg_date'] = myDateOnly($r['surg_date']);
     //     $rows[] = $r;
     // }
+    $result1 = $this->Patient_Portal_Changes_model->get_patient_data('surgicalhx');		
+	array_push($result, $result1); 
     echo json_encode($result);
 
 }

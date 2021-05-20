@@ -6,6 +6,7 @@ class Allergy_Ctrl extends MY_Controller {
     public function __construct(){
 		parent::__construct();
 		$this->load->model('Allergy_model');
+		$this->load->model('Patient_Portal_Changes_model');
 
 
     }    
@@ -123,6 +124,8 @@ public function getlist(){
     }else{
         // $result = $db->executeSQL("SELECT * FROM patient_allergies where pid =".$pid);
         $result = $this->Allergy_model->get_patient_allergiesBypid($this->user_id);        
+        $result1 = $this->Patient_Portal_Changes_model->get_patient_data('patient_allergies');		
+	    array_push($result, $result1);
         echo json_encode($result);
         
     }
