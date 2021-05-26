@@ -6,6 +6,7 @@ class Appointment_Ctrl extends MY_Controller {
     public function __construct(){
 		parent::__construct();
 		$this->load->model('Appointment_model');
+		$this->load->model('Patient_Portal_Changes_model');
 
     } 
 //////////////////////////------- For appointment/calender.php --------/////////////////////////////////
@@ -68,7 +69,8 @@ public function appoitment_list() {
 // postcalendar_events e WHERE CAST(e.time as Date) = CURDATE() and patient_id=".$pid;
 
 $result = $this->Appointment_model->appoitment_list($this->user_id);
-
+$result1 = $this->Patient_Portal_Changes_model->get_patient_data('postcalendar_events');
+array_push($result, $result1); 
 echo json_encode($result);
 }
 //////////////////////////------- For appointment/list.php --------/////////////////////////////////
@@ -76,12 +78,11 @@ echo json_encode($result);
 public function appoitment_save()
 {
     $request = get_request_body();
-	$request["patientId"] = $this->user_id;
+	$request["pid"] = $this->user_id;
     $output = str_replace(array("\r\n", "\n", "\r"),'',$request);
-	$jsonData = json_encode($output);
+	$jsonData = json_encode($output);	
     $table_name = "postcalendar_events";
 	$change_type = $request['editID'];
-
 			///////------- For Adding Records
 			
             $result = $this->Appointment_model->AddRecordsTo_patient_portal_changes($this->user_id,$table_name,$change_type,$jsonData,$request['hx_id']);
@@ -110,9 +111,54 @@ public function appoitment_search()
 	echo json_encode($result);
 }
 ///////------- For Search Providers
+///////------- Get Appoitment times-------/////
 
+public function appoitment_time(){
+	$post = get_request_body();	
+	$result = $this->Appointment_model->appoitment_time($post);
+	$bookedTime = $this->Appointment_model->available_time($post['provider_id'],$post['date']);		
+	if($result != 'empty'){
+		$nextInterval = $result[0]['start_time'];		
+		$endInterval = array();
+		$counter = true;
+			$i = 0;
+		while($counter){
+			$obj['start_time'] = $nextInterval;
+			$endTime = strtotime("+".$result[0]['slot_interval']." minutes", strtotime($nextInterval));
+			$nextInterval = date('H:i:s', $endTime);
+			$obj['end_time'] = $nextInterval;			
+			if(date("Y-m-d") == $post['date']){
+				if($post['time'] <= $obj['start_time'])
+				array_push($endInterval, $obj);
+			}else{
+				array_push($endInterval, $obj);
+			}
+			if($nextInterval == $result[0]['end_time']){
+				$counter = false;
+				break;
+			}
+			$i++;		
+		}
+		$newTime = array();
+		$newEndTime = array();
+		$result1;
+		// if($bookedTime != 'empty'){
+			// foreach($bookedTime as $val){
+			// 	array_push($newTime,$val['start_time']); 
+			// 	array_push($newEndTime,$val['end_time']); 
+			// }
+			// $availableTime['interval'] = $result[0]['slot_interval'];
+			// $availableTime['start_time'] = array_diff($timeIntervals, $newTime);
+			// $availableTime = array_diff($endInterval, $bookedTime);
+			$availableTime = array_diff(array_map('serialize',$endInterval), array_map('serialize',$bookedTime));
+			$result1 = array_map('unserialize',$availableTime);						
+			echo json_encode($result1);
+		// }else{			
+		// 	echo json_encode($endInterval);
+		// }
+	}
+}
 
-
-
+///////------- Get Appoitment times-------/////
 
 }    

@@ -56,4 +56,34 @@ public function appoitment_list($pid){
     }
 }
 
+public function appoitment_time($data){     
+    $this->db->select('*');
+    $this->db->from('calendar_data_setting');
+    $this->db->where('provider_id',$data['provider_id']);
+    $this->db->where('day',$data['day']);
+    $this->db->where('type',$data['type']);
+    $query = $this->db->get();
+    if($query->num_rows() > 0){
+        return($query->result_array());
+    }
+    else{
+        return 'empty';
+    }
+}
+
+public function available_time($providerId, $date){
+    $this->db->select('start_time,end_time');
+    $this->db->from('postcalendar_events');
+    $this->db->where('provider_id',$providerId);
+    $this->db->where('event_date',$date);    
+    $query = $this->db->get();
+    if($query->num_rows() > 0){
+        return($query->result_array());
+    }
+    else{
+    return array();
+    }
+}
+
+
 }    

@@ -7,6 +7,7 @@ class Insurance_Ctrl extends MY_Controller {
     public function __construct(){
 		parent::__construct();
 		$this->load->model('Insurance_model');
+		$this->load->model('Patient_Portal_Changes_model');
 
     }
     
@@ -38,6 +39,9 @@ public function Insurance_list()
     // print_r($result);exit;
     // $rows = array();
     //     $rows[] = $r;
+    $result4 = $this->Patient_Portal_Changes_model->get_patient_data('insurance_data');
+		// $merged_arr = array_merge($result,$result1);
+    array_push($result, $result4); 
     echo json_encode($result);
 
 }
@@ -52,7 +56,7 @@ public function insurance_save()
     if(isset($_FILES['file']) && count($_FILES['file']) > 0){        
       
         $directory = 'upload/patient_'.$_POST["patientId"];
-        $db_path = 'patient_portal_api/include/portal_data/patient_'.$_POST["patientId"];
+        $db_path = 'upload/patient_'.$_POST["patientId"];
         if(!is_dir($directory))
           mkdir($directory, 0777, true);
         

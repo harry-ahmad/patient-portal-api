@@ -67,6 +67,8 @@ $route['calender']   	     = 'Appointment_Ctrl/calendere';
 $route['calenderevents']     = 'Appointment_Ctrl/calenderevents';
 $route['appoitment_list']    = 'Appointment_Ctrl/appoitment_list';
 $route['appoitment_search']    = 'Appointment_Ctrl/appoitment_search';
+$route['appoitment_time']    = 'Appointment_Ctrl/appoitment_time';
+$route['appoitment_save']    = 'Appointment_Ctrl/appoitment_save';
 
 //////----------Bloodglucose_Ctrl routes
 $route['bloodglucose_list']    = 'Bloodglucose_Ctrl/bloodglucose_list';
