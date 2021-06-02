@@ -102,6 +102,10 @@ $route['family_save']    = 'Family_Ctrl/family_save';
 //////----------Measurement_Ctrl routes
 $route['measurement_list']    = 'Measurement_Ctrl/measurement_list';
 $route['measurement_save']    = 'Measurement_Ctrl/measurement_save';
+
+//////----------Notification_Ctrl routes
+$route['notification_list']    = 'Notification_Ctrl/notification_list';
+
 //////----------surgical_Ctrl routes
 $route['surgical_list']    = 'Surgical_Ctrl/surgical_list';
 $route['surgical_search']    = 'Surgical_Ctrl/surgical_search';

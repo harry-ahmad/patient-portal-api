@@ -16,11 +16,11 @@ public function measurement_list()
 
     $rows = array();
     if (isset($_REQUEST['dataID']) && $_REQUEST['dataID'] <>""){
-        $result = $this->Measurement_model->getDataFrom_form_vitals($this->userid,$_REQUEST['dataID']);
+        $result = $this->Measurement_model->getDataFrom_form_vitals($this->user_id,$_REQUEST['dataID']);
          if($result){
             $r = $result;
         }else{
-            $result = $this->Measurement_model->getDataFrom_vitals_readings($this->userid,$_REQUEST['dataID']);
+            $result = $this->Measurement_model->getDataFrom_vitals_readings($this->user_id,$_REQUEST['dataID']);
             $r = $result;
         }
         
