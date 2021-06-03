@@ -22,7 +22,7 @@ class Notification_Ctrl extends MY_Controller {
                     $form_vitals = 'Measurements';
                     array_push($result1['accepted'],$form_vitals); 
                 }else if($val['table_name'] == 'patient_data'){
-                    $patient_data = 'Patient Data';
+                    $patient_data = 'Demographics';
                     array_push($result1['accepted'],$patient_data); 
                 }else if($val['table_name'] == 'patient_allergies'){
                     $patient_allergies = 'Allergies';
@@ -57,7 +57,7 @@ class Notification_Ctrl extends MY_Controller {
                     $form_vitals = 'Measurements';
                     array_push($result1['rejected'],$form_vitals); 
                 }else if($val['table_name'] == 'patient_data'){
-                    $patient_data = 'Patient Data';
+                    $patient_data = 'Demographics';
                     array_push($result1['rejected'],$patient_data); 
                 }else if($val['table_name'] == 'patient_allergies'){
                     $patient_allergies = 'Allergies';
@@ -92,7 +92,7 @@ class Notification_Ctrl extends MY_Controller {
                     $form_vitals = 'Measurements';
                     array_push($result1['pending'],$form_vitals); 
                 }else if($val['table_name'] == 'patient_data'){
-                    $patient_data = 'Patient Data';
+                    $patient_data = 'Demographics';
                     array_push($result1['pending'],$patient_data); 
                 }else if($val['table_name'] == 'patient_allergies'){
                     $patient_allergies = 'Allergies';
