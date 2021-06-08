@@ -31,7 +31,7 @@ class Notification_Ctrl extends MY_Controller {
                     $planned_meds = 'Medications';
                     array_push($result1['accepted'],$planned_meds); 
                 }else if($val['table_name'] == 'surgicalhx'){
-                    $surgicalhx = 'Surgical History';
+                    $surgicalhx = 'Social History';
                     array_push($result1['accepted'],$surgicalhx); 
                 }else if($val['table_name'] == 'familyhx'){
                     $familyhx = 'Family History';
@@ -66,7 +66,7 @@ class Notification_Ctrl extends MY_Controller {
                     $planned_meds = 'Medications';
                     array_push($result1['rejected'],$planned_meds); 
                 }else if($val['table_name'] == 'surgicalhx'){
-                    $surgicalhx = 'Surgical History';
+                    $surgicalhx = 'Social History';
                     array_push($result1['rejected'],$surgicalhx); 
                 }else if($val['table_name'] == 'familyhx'){
                     $familyhx = 'Family History';
@@ -101,7 +101,7 @@ class Notification_Ctrl extends MY_Controller {
                     $planned_meds = 'Medications';
                     array_push($result1['pending'],$planned_meds); 
                 }else if($val['table_name'] == 'surgicalhx'){
-                    $surgicalhx = 'Surgical History';
+                    $surgicalhx = 'Social History';
                     array_push($result1['pending'],$surgicalhx); 
                 }else if($val['table_name'] == 'familyhx'){
                     $familyhx = 'Family History';

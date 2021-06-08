@@ -88,6 +88,7 @@ $route['cholesterol_save']    = 'Cholesterol_Ctrl/cholesterol_save';
 
 //////----------Dashboard_Ctrl routes
 $route['dashboard']    = 'Dashboard_Ctrl/dashboard';
+$route['filteredList']    = 'Dashboard_Ctrl/filteredList';
 
 //////----------Report_Ctrl routes
 $route['generate_report']    = 'Report_Ctrl/generate_report';
