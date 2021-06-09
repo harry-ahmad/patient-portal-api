@@ -267,52 +267,52 @@ if(!function_exists('readyToLink'))
 			//echo $msg; exit;
 			$CI = & get_instance();
 			$to = ClearPhoneNumber($to);
-			//echo $to; exit;
-			// $CI->load->model('settings/Settings_model');
-			// $res = $CI->Settings_model->get_system_setting("sms",1);
 			
-			// if($res->num_rows() > 0){
-			// 	if($res->num_rows() > 1) // in case of multiple SMS APIs
-			// 	{
-			// 		$row = '';
-			// 		$result = $res->result();
-			// 		foreach($result as $rec){
-			// 			if($rec->is_default=='1')
-			// 				$row = $rec;
-			// 		}
-			// 		if($row == ''){$row = $result[0];}
-			// 	}else{
-			// 		$row = $res->row();
-			// 	}
+			$CI->load->model('Setting_model');
+			$res = $CI->Setting_model->get_system_setting("sms",1);
+			// print_r($res); exit;
+			if($res->num_rows() > 0){
+				if($res->num_rows() > 1) // in case of multiple SMS APIs
+				{
+					$row = '';
+					$result = $res->result();
+					foreach($result as $rec){
+						if($rec->is_default=='1')
+							$row = $rec;
+					}
+					if($row == ''){$row = $result[0];}
+				}else{
+					$row = $res->row();
+				}
 				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_URL,"https://rest.nexmo.com/sms/json");
-				curl_setopt($ch, CURLOPT_POST, 1);
-				curl_setopt($ch, CURLOPT_POSTFIELDS,
-							http_build_query(
-							[
-								'api_key' 		=> "",
-								'api_secret' 	=> "",
-								'to' 			=> $to,
-								'from' 			=> 'EZMR',
-								'text' 			=> $msg
-							]));
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-				$output = curl_exec($ch);
-				curl_close($ch);
-				
-				$sms_log = array(
-					'from_send' =>  'EZMR',
-					'to_send'   =>  $to,
-					'msg'   	=>  $msg,
-					'type'   	=> 'sms',
-					'date'		=> date('Y-m-d h:i:s'),
-					'attachment'=> $output 
-				);
-				// $CI->Settings_model->sms_fax_log($sms_log);
-				$output = json_decode($output);
-				// print_r($output);
-				return $output;
-			// }
+					curl_setopt($ch, CURLOPT_URL,"https://rest.nexmo.com/sms/json");
+					curl_setopt($ch, CURLOPT_POST, 1);
+					curl_setopt($ch, CURLOPT_POSTFIELDS,
+								http_build_query(
+								[
+									'api_key' 		=> $row->client_id,
+									'api_secret' 	=> $row->pswd,
+									'to' 			=> $to,
+									'from' 			=> $row->company_name,
+									'text' 			=> $msg
+								]));
+					curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+					$output = curl_exec($ch);
+					curl_close ($ch);
+					
+					$sms_log = array(
+						'from_send' =>  $row->company_name,
+						'to_send'   =>  $to,
+						'msg'   	=>  $msg,
+						'type'   	=> 'sms',
+						'date'		=> date('Y-m-d h:i:s'),
+						'attachment'=> $output 
+					);
+					// print_r($sms_log); exit;
+					// $CI->Settings_model->sms_fax_log($sms_log);
+					$output = json_decode($output);
+					return $output;
+			}
 		}
 	}
 
