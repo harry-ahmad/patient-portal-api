@@ -105,6 +105,7 @@ public function get_filtered_data($post,$pid){
 	} else if ($type == 'cholestrol') {
 		$query = "select * from patient_cholesterol_data a where a.pid = ".$pid." order by a.cholesterol_id desc limit 5";
 	}
+	// echo $query
 
 	$result = [];
 	$result1 = $this->dynamic_query_execution($query);	
