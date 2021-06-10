@@ -178,5 +178,16 @@ public function medical_save()
 
 //////////////////////////------- For Medical/save.php --------/////////////////////////////////
 
+public function psyc_list()
+{
+	$result = $this->Medical_model->psyc_list($this->user_id);
+	echo json_encode($result);
+}
+
+public function gyne_list()
+{
+	$result = $this->Medical_model->gyne_list($this->user_id);
+	echo json_encode($result);
+}
 
 }    

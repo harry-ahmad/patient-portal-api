@@ -60,6 +60,33 @@ public function addData_patient_portal_changes($pid,$table_name,$change_type,$js
     return false;
     }
 }    
+public function psyc_list($pid){
+
+    $this->db->select('*');
+    $this->db->from('psychiatrichx');
+    $this->db->where('pid',$pid);
+    $query = $this->db->get();
+    if($query->num_rows() > 0){
+        return($query->result_array());
+    }
+    else{
+    return false;
+    }
+}
+
+public function gyne_list($pid){
+
+    $this->db->select('*');
+    $this->db->from('patient_gyne_hx');
+    $this->db->where('pid',$pid);
+    $query = $this->db->get();
+    if($query->num_rows() > 0){
+        return($query->result_array());
+    }
+    else{
+    return false;
+    }
+}
 
 
 }
