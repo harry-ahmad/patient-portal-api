@@ -124,8 +124,9 @@ $route['editDx']          = 'Medical_Ctrl/editDx';
 $route['medical_list']    = 'Medical_Ctrl/medical_list';
 $route['medical_search']  = 'Medical_Ctrl/medical_search';
 $route['medical_save']    = 'Medical_Ctrl/medical_save';
-$route['psyc_list']    = 'Medical_Ctrl/psyc_list';
-$route['gyne_list']    = 'Medical_Ctrl/gyne_list';
+$route['psyc_list']       = 'Medical_Ctrl/psyc_list';
+$route['gyne_list']       = 'Medical_Ctrl/gyne_list';
+$route['medical_status']  = 'Medical_Ctrl/medical_status';
 
 
 ///////----------Dashboard_Ctrl routes

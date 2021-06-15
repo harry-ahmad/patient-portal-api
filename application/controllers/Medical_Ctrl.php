@@ -190,4 +190,11 @@ public function gyne_list()
 	echo json_encode($result);
 }
 
+public function medical_status()
+{
+	$request = get_request_body();
+	$result = $this->Medical_model->medical_status($this->user_id, $request);
+	echo json_encode($result);
+}
+
 }    

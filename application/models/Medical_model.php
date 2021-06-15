@@ -88,5 +88,20 @@ public function gyne_list($pid){
     }
 }
 
+public function medical_status($pid,$request){
+
+    $this->db->select('*');
+    $this->db->from($request['tableName']);
+    $this->db->where('pid',$pid);
+    $this->db->where('active',$request['status']);
+    $query = $this->db->get();
+    if($query->num_rows() > 0){
+        return($query->result_array());
+    }
+    else{
+    return false;
+    }
+}
+
 
 }
