@@ -64,9 +64,11 @@ class Login_Ctrl extends CI_Controller {
 					$status = '-1';
 					$row = authorize($this->auth["table"], $this->auth["fields"], $this->auth["username_field"], $this->auth["password_field"], $this->auth["id_field"], $user_name , $password , $this->auth["service_name"], $this->auth["cookie_name"]);
 					if(sizeOf($row) > 0){
+						$digits = 4;
 						$postData = $_POST;
 						$postData['ph_no'] = $row['phone_cell'];
 						$postData['pid'] = $row['pid'];
+						$postData['token'] = random_int( 10 ** ( $digits - 1 ), ( 10 ** $digits ) - 1);
 						$this->send_OTP($postData);
 						if(send_sms_helper($postData['ph_no'],"Your OTP for Patient Portal is " . $postData['token'])){
 							if ($row['system_password'] > 0) {
