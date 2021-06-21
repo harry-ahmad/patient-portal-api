@@ -10,6 +10,8 @@ class OTP_Ctrl extends MY_Controller {
 
     public function send_OTP(){      
         $request = get_request_body();
+		$digits = 4;
+        $request['token'] = random_int( 10 ** ( $digits - 1 ), ( 10 ** $digits ) - 1);
         // $otpService = send_sms_helper($request['ph_no'],"Your OTP for Patient Portal is " . $request['token'])        
         $data = array(
             'otp' => $request['token'],
