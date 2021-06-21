@@ -81,7 +81,7 @@ class Login_Ctrl extends CI_Controller {
 					}										
 				// }
 			}catch(exception $e){
-				print_r($e);
+				// print_r($e);
 				 response(array(
 					"code" => BAD_CREDENTIALS,
 					"message" => 'BAD CREDENTIALS'
