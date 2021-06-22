@@ -13,10 +13,16 @@ class Document_Ctrl extends MY_Controller {
 //////////////////////////------- For Document/list.php/ --------/////////////////////////////////
 public function document_list()
 {
-    $result = $this->Document_model->getDataFrom_document($this->user_id);
-    $result1 = $this->Patient_Portal_Changes_model->get_patient_data('documents');
+    $post = get_request_body();
+    $result = array();
+    if($post['date'] == 'all'){
+      $result = $this->Document_model->getDataFrom_document($this->user_id);
+      $result1 = $this->Patient_Portal_Changes_model->get_patient_data('documents');
+      array_push($result, $result1);   
+    }else{
+      $result = $this->Document_model->getDataByTimeFilter($this->user_id, $post);
+    }
 		// $merged_arr = array_merge($result,$result1);
-    array_push($result, $result1);   
     echo json_encode($result);        
 }
 
