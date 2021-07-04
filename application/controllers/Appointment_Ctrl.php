@@ -67,10 +67,20 @@ public function appoitment_list() {
 // concat('{title:\"',e.title,'\",start:\"',e.event_date,'T',e.start_time,'\",end:\"',e.event_date,'T',e.end_time,'\"}') event 
 // FROM 
 // postcalendar_events e WHERE CAST(e.time as Date) = CURDATE() and patient_id=".$pid;
+$body = get_request_body();
+$result = array();
+$result['last_provider'] = $body['providerId'];
+if($result['last_provider'] == ""){
+	$get_last_provider = $this->Appointment_model->get_last_provider($this->user_id);
+}
+if(isset($get_last_provider['provider_id']))
+	$result['last_provider'] = $get_last_provider['provider_id'];
 
-$result = $this->Appointment_model->appoitment_list($this->user_id);
-$result1 = $this->Patient_Portal_Changes_model->get_patient_data('postcalendar_events');
-array_push($result, $result1); 
+$appoitment_list = $this->Appointment_model->appoitment_list($this->user_id,$result['last_provider'], $body['date']);
+$pending_list = $this->Appointment_model->pending_list($this->user_id,$result['last_provider'], $body['date']);
+$result['appoitment_list'] = $appoitment_list;
+$result['pending_list'] = $pending_list;
+
 echo json_encode($result);
 }
 //////////////////////////------- For appointment/list.php --------/////////////////////////////////
@@ -114,9 +124,14 @@ public function appoitment_search()
 ///////------- Get Appoitment times-------/////
 
 public function appoitment_time(){
-	$post = get_request_body();	
-	$result = $this->Appointment_model->appoitment_time($post);
-	// $bookedTime = $this->Appointment_model->available_time($post['provider_id'],$post['date']);		
+	$post = get_request_body();
+	$appoitment_time = $this->Appointment_model->appoitment_time($post);
+	$bookedTime = $this->Appointment_model->available_time($post['provider_id'],$post['date']);
+	$result['appoitment_time'] = $appoitment_time;
+	$result['bookedTime'] = $bookedTime;
+	// array_push($appoitment_time, $result);
+	// array_push($bookedTime, $result1);
+	// print_r($result);		
 	// if($result != 'empty'){
 	// 	$nextInterval = $result[0]['start_time'];		
 	// 	$endInterval = array();
@@ -158,6 +173,17 @@ public function appoitment_time(){
 		// 	echo json_encode($endInterval);
 		// }
 	// }
+}
+
+public function provider_list(){
+	$result = $this->Appointment_model->provider_list();
+	echo json_encode($result);
+}
+
+public function appoitment_hours(){
+	$post = get_request_body();	
+	$result = $this->Appointment_model->appoitment_hours($post);
+	echo json_encode($result);		
 }
 
 ///////------- Get Appoitment times-------/////
