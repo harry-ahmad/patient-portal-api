@@ -33,7 +33,7 @@ public function measurement_list()
             
         //     $rows[] = $r;
         // }//End While
-        $result1 = $this->Patient_Portal_Changes_model->get_patient_data('form_vitals');			
+        $result1 = $this->Patient_Portal_Changes_model->get_patient_data('form_vitals');        
 		array_push($result, $result1); 
         echo json_encode($result);
     }    
@@ -48,7 +48,7 @@ public function measurement_save()
 	$output = str_replace(array("\r\n", "\n", "\r"),'',$request);
 	$jsonData = json_encode($output);
     $table_name = "vitals";
-	$change_type = $request['editID'];
+	$change_type = $request['editID'];    
 
 			///////------- For Adding Records
 			
@@ -62,7 +62,26 @@ public function measurement_save()
 
 }
 
-//////////////////////////------- For Measurement/save.php --------/////////////////////////////////
+//////////////////////////------- For Measurement/edit.php --------/////////////////////////////////
+public function measurement_edit()
+{
+    $request = get_request_body();	
+	$request["patientId"] = $this->user_id;
+    $request["datetime"] = ($request["datetime"] == "" ? date('Y-m-d h:i A') : date('Y-m-d h:i A', strtotime($request["datetime"])));
+	$output = str_replace(array("\r\n", "\n", "\r"),'',$request);
+	$jsonData = json_encode($output);
+    $table_name = $request['tb_name'];
+	$change_type = $request['editID'];    
 
+			///////------- For Adding Records
+			
+            $result = $this->Measurement_model->editData_patient_portal_changes($request["id"],$this->user_id,$table_name,$change_type,$jsonData,$request['hx_id']);
+			if($result ){
+				echo compileResponse(300, "Your Message has been updated and sent to the clinic. Please wait for them to review and respond.");
+			}else{
+				echo compileResponse(500, "Bad Parameters!!!");
+			}
+			///////------- For Adding Records
 
+}
 }    

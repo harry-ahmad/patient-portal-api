@@ -61,6 +61,7 @@ $route['changePassword']   	 = 'OTP_Ctrl/changePassword';
 //////----------Allergy_Ctrl routes
 $route['getlist']   		 = 'Allergy_Ctrl/getlist';
 $route['save']   		     = 'Allergy_Ctrl/save';
+$route['allergy_edit']       = 'Allergy_Ctrl/allergy_edit';
 
 //////----------Appointment_Ctrl routes
 $route['calender']   	     = 'Appointment_Ctrl/calendere';
@@ -105,6 +106,7 @@ $route['family_save']    = 'Family_Ctrl/family_save';
 //////----------Measurement_Ctrl routes
 $route['measurement_list']    = 'Measurement_Ctrl/measurement_list';
 $route['measurement_save']    = 'Measurement_Ctrl/measurement_save';
+$route['measurement_edit']    = 'Measurement_Ctrl/measurement_edit';
 
 //////----------Notification_Ctrl routes
 $route['notification_list']    = 'Notification_Ctrl/notification_list';
@@ -113,7 +115,9 @@ $route['notification_list']    = 'Notification_Ctrl/notification_list';
 $route['surgical_list']    = 'Surgical_Ctrl/surgical_list';
 $route['surgical_search']    = 'Surgical_Ctrl/surgical_search';
 $route['surgical_save']    = 'Surgical_Ctrl/surgical_save';
+$route['surgical_edit']    = 'Surgical_Ctrl/surgical_edit';
 $route['delete_surg']      = 'Surgical_Ctrl/delete_surg';
+
 //////----------patient_Ctrl routes
 $route['patient_list']    = 'Patient_Ctrl/patient_list';
 $route['patient_save']    = 'Patient_Ctrl/patient_save';
@@ -126,6 +130,7 @@ $route['editDx']          = 'Medical_Ctrl/editDx';
 $route['medical_list']    = 'Medical_Ctrl/medical_list';
 $route['medical_search']  = 'Medical_Ctrl/medical_search';
 $route['medical_save']    = 'Medical_Ctrl/medical_save';
+$route['medical_edit']    = 'Medical_Ctrl/medical_edit';
 $route['psyc_list']       = 'Medical_Ctrl/psyc_list';
 $route['gyne_list']       = 'Medical_Ctrl/gyne_list';
 $route['medical_status']  = 'Medical_Ctrl/medical_status';
