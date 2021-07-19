@@ -94,7 +94,31 @@ public function addData_patient_portal_changes($pid,$table_name,$change_type,$js
     else{
     return false;
     }
-}    
+}   
+
+public function editData_patient_portal_changes($id,$pid,$table_name,$change_type,$jsonData,$request_hxid)
+{
+    $insert_arrray = array(
+
+        'pid'              => $pid,
+        'table_name'       => $table_name,
+        'change_type'      => $change_type,
+        'changes'          => $jsonData,
+        'update_id'        => $request_hxid,
+        'status'           => '0',
+        'approved_deny_by' => '0',
+        'comment'          => ''
+
+    );
+    $this->db->where('id', $id);
+    $this->db->update('patient_portal_changes', $insert_arrray);    
+    if($this->db->affected_rows() > 0){
+        return true;
+    }
+    else{
+    return false;
+    }
+}
 
 
 }

@@ -48,8 +48,7 @@ public function Insurance_list()
 
 public function insurance_save()
 {
-
-	$_POST["patientId"] = $this->user_id;
+	  $_POST["patientId"] = $this->user_id;
     $change_type = $_POST['editID'];
     $table_name = "insurance_data";
     $file_paths = [];
@@ -92,22 +91,30 @@ public function insurance_save()
     
     $formData = str_replace(array("\r\n", "\n", "\r"),'',$_POST);
     $formData['files'] = str_replace(array("\r\n", "\n", "\r"),'',$_FILES);    
-	$jsonData = json_encode($formData);    	
+	  $jsonData = json_encode($formData);    	
 
     ///////------- For Adding Records
-    
+    if($_POST['add'] == "true"){
     $result = $this->Insurance_model->addData_patient_portal_changes($this->user_id,$table_name,$change_type,$jsonData,$_POST['hx_id']);
-    if($result> 0){
-        response(array(
-            "status" => SUCCESS,
-            "message" => 'Your Message has been sent to the clinic. Please wait for them to review and respond'
-        ));
-        }else{
-        response(array(
-            "status" => BAD_DATA,
-            "message" => 'Error while saving the record'
+      if($result> 0){
+          response(array(
+              "status" => SUCCESS,
+              "message" => 'Your Message has been sent to the clinic. Please wait for them to review and respond'
+          ));
+          }else{
+          response(array(
+              "status" => BAD_DATA,
+              "message" => 'Error while saving the record'
             ), true);
         }
+      }else{
+        $result = $this->Insurance_model->editData_patient_portal_changes($_POST["id"],$this->user_id,$table_name,$change_type,$jsonData,$_POST['hx_id']);
+        if($result ){
+          echo compileResponse(300, "Your Message has been updated and sent to the clinic. Please wait for them to review and respond.");
+        }else{
+            echo compileResponse(500, "Bad Parameters!!!");
+        }
+      }
     ///////------- For Adding Records
 
 }

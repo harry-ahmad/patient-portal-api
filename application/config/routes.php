@@ -103,6 +103,8 @@ $route['insurance_save']    = 'Insurance_Ctrl/insurance_save';
 //////----------Family_Ctrl routes
 $route['family_list']    = 'Family_Ctrl/family_list';
 $route['family_save']    = 'Family_Ctrl/family_save';
+$route['family_edit']    = 'Family_Ctrl/family_edit';
+
 //////----------Measurement_Ctrl routes
 $route['measurement_list']    = 'Measurement_Ctrl/measurement_list';
 $route['measurement_save']    = 'Measurement_Ctrl/measurement_save';
@@ -144,6 +146,8 @@ $route['getzipvals_func']        = 'Getzipvals_Ctrl/getzipvals_func';
 ///////----------Document_Ctrl routes
 $route['document_list']        = 'Document_Ctrl/document_list';
 $route['save_document']        = 'Document_Ctrl/save_document';
+$route['document_edit']        = 'Document_Ctrl/document_edit';
+
 ///////----------Options_Ctrl routes
 $route['getOptionsLists']        = 'Options_Ctrl/getOptionsLists_func';
 $route['getOptions']        = 'Options_Ctrl/getOptions_func';

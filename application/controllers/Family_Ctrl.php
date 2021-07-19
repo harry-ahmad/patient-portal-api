@@ -206,5 +206,29 @@ private function get_sp_search_list_count($db, $search_tbl, $like_search, $where
 		return $search_term;                     
 	}
 
+	
+    //////////////////////////------- For Family/edit.php --------/////////////////////////////////
+    public function family_edit()
+    {
+        $request = get_request_body();	
+        $request["patientId"] = $this->user_id;        
+        $request["datetime"] = date('Y-m-d h:i A');
+        $output = str_replace(array("\r\n", "\n", "\r"),'',$request);
+        $jsonData = json_encode($output);
+        $table_name = $request['tb_name'];
+        $change_type = $request['editID'];    
+
+                ///////------- For Adding Records
+                
+                $result = $this->Family_model->editData_patient_portal_changes($request["id"],$this->user_id,$table_name,$change_type,$jsonData,$request['hx_id']);
+                if($result ){
+                    echo compileResponse(300, "Your Message has been updated and sent to the clinic. Please wait for them to review and respond.");
+                }else{
+                    echo compileResponse(500, "Bad Parameters!!!");
+                }
+                ///////------- For Adding Records
+
+    }
+
 
 }    

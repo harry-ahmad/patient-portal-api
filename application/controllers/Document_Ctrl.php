@@ -96,22 +96,32 @@ public function save_document()
     $jsonData = json_encode($output);    
     //echo'<pre>',count($jsonData);print_r($jsonData);exit();
     ///////------- For Adding Records
-    $result = $this->db->query(
-      "insert into patient_portal_changes(pid,table_name,change_type,changes,update_id,status,approved_deny_by,comment)
-      VALUES 
-      ('".$pid."','".$table_name."','".$change_type."','".$jsonData."', '".$_POST['hx_id']."','0','0','')"
-    );
-    if($result> 0){
-      response(array(
-        "status" => SUCCESS,
-        "message" => 'Your Message has been sent to the clinic. Please wait for them to review and respond'
-      ));
+    if($_POST['add'] == "true"){
+      $result = $this->db->query(
+        "insert into patient_portal_changes(pid,table_name,change_type,changes,update_id,status,approved_deny_by,comment)
+        VALUES 
+        ('".$pid."','".$table_name."','".$change_type."','".$jsonData."', '".$_POST['hx_id']."','0','0','')"
+      );
+      if($result> 0){
+        response(array(
+          "status" => SUCCESS,
+          "message" => 'Your Message has been sent to the clinic. Please wait for them to review and respond'
+        ));
+      }else{
+        response(array(
+          "status" => BAD_DATA,
+          "message" => 'Error while saving the record'
+         ), true);
+      }
     }else{
-      response(array(
-        "status" => BAD_DATA,
-        "message" => 'Error while saving the record'
-       ), true);
+      $result = $this->Document_model->editData_patient_portal_changes($_POST["id"],$this->user_id,$table_name,$change_type,$jsonData,$_POST['hx_id']);
+      if($result ){
+          echo compileResponse(300, "Your Message has been updated and sent to the clinic. Please wait for them to review and respond.");
+      }else{
+          echo compileResponse(500, "Bad Parameters!!!");
+      }
     }
+    
     /////------- For Adding Records
   }else
     exit('1');
