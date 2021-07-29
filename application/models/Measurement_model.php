@@ -106,5 +106,20 @@ public function editData_patient_portal_changes($id,$pid,$table_name,$change_typ
     }
 }
 
+public function delete($request){
+    $id='vital_id';
+    if($request['table_name'] == 'patient_portal_changes'){
+        $id = 'id';
+    }
+    $this->db->where($id, $request['id']);
+    $this->db->delete($request['table_name']);
+    if($this->db->affected_rows() > 0){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 
 }

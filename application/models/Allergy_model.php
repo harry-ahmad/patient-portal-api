@@ -173,6 +173,23 @@ public function editData_patient_portal_changes($id,$pid,$table_name,$change_typ
     }
 }
 
+public function delete($request){
+    $id='id';
+    if($request['table_name'] == 'medicalhx'){
+        $id = 'med_id';
+    }else if($request['table_name'] == 'psychiatrichx'){
+        $id = 'psych_id';
+    }
+    $this->db->where($id, $request['id']);
+    $this->db->delete($request['table_name']);
+    if($this->db->affected_rows() > 0){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 
 
 

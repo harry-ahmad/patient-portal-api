@@ -84,4 +84,15 @@ public function measurement_edit()
 			///////------- For Adding Records
 
 }
+
+public function delete_list(){
+    $request = get_request_body();	        
+    $result = $this->Measurement_model->delete($request);
+    if($result ){
+        echo compileResponse(300, "Deleteted Succefully");
+    }else{
+        echo compileResponse(500, "Bad Parameters!!!");
+    }
+}
+
 }    

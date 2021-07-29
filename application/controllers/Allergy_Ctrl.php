@@ -256,6 +256,16 @@ if($result){
 
     }
 
+    public function delete_list(){
+        $request = get_request_body();	        
+        $result = $this->Allergy_model->delete($request);
+        if($result ){
+            echo compileResponse(300, "Deleteted Succefully");
+        }else{
+            echo compileResponse(500, "Bad Parameters!!!");
+        }
+    }
+
 
 
 

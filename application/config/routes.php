@@ -62,6 +62,7 @@ $route['changePassword']   	 = 'OTP_Ctrl/changePassword';
 $route['getlist']   		 = 'Allergy_Ctrl/getlist';
 $route['save']   		     = 'Allergy_Ctrl/save';
 $route['allergy_edit']       = 'Allergy_Ctrl/allergy_edit';
+$route['delete_list']        = 'Allergy_Ctrl/delete_list';
 
 //////----------Appointment_Ctrl routes
 $route['calender']   	     = 'Appointment_Ctrl/calendere';
@@ -109,6 +110,7 @@ $route['family_edit']    = 'Family_Ctrl/family_edit';
 $route['measurement_list']    = 'Measurement_Ctrl/measurement_list';
 $route['measurement_save']    = 'Measurement_Ctrl/measurement_save';
 $route['measurement_edit']    = 'Measurement_Ctrl/measurement_edit';
+$route['delete_measurement']    = 'Measurement_Ctrl/delete_list';
 
 //////----------Notification_Ctrl routes
 $route['notification_list']    = 'Notification_Ctrl/notification_list';
