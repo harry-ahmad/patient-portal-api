@@ -173,20 +173,27 @@ public function editData_patient_portal_changes($id,$pid,$table_name,$change_typ
     }
 }
 
-public function delete($request){
-    $id='id';
-    if($request['table_name'] == 'medicalhx'){
-        $id = 'med_id';
-    }else if($request['table_name'] == 'psychiatrichx'){
-        $id = 'psych_id';
-    }
-    $this->db->where($id, $request['id']);
-    $this->db->delete($request['table_name']);
+public function delete($pid,$request){
+    // print_r($request);exit;
+    $id = $request['id'];
+    $insert_arrray = array(
+
+        'pid'              => $pid,
+        'table_name'       => $request['table_name'],
+        'change_type'      => 3,
+        'changes'          => '',
+        'update_id'        => $id,
+        'status'           => '0',
+        'approved_deny_by' => '0',
+        'comment'          => ''
+
+    );
+    $this->db->insert('patient_portal_changes',$insert_arrray);
     if($this->db->affected_rows() > 0){
         return true;
     }
     else{
-        return false;
+    return false;
     }
 }
 

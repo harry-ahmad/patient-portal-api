@@ -201,31 +201,28 @@ private function script_sure_login(){
 
 public function save(){
 
- $request = get_request_body();
- $request["patientId"] = $this->user_id; //$pid
-if(isset($request["reaction_date"])){
-    $request["reaction_date"] = date('Y-m-d', strtotime($request["reaction_date"]));
-}
-if(isset($request["end_date"])){
-    $request["end_date"] = date('Y-m-d', strtotime($request["end_date"]));
-}
-$output = str_replace(array("\r\n", "\n", "\r"),'',$request);
-$jsonData = json_encode($output);
-$table_name = "patient_allergies";
-$change_type = $request['editID'];
+    $request = get_request_body();
+    $request["patientId"] = $this->user_id; //$pid
+    if(isset($request["reaction_date"])){
+        $request["reaction_date"] = date('Y-m-d', strtotime($request["reaction_date"]));
+    }
+    if(isset($request["end_date"])){
+        $request["end_date"] = date('Y-m-d', strtotime($request["end_date"]));
+    }
+    $output = str_replace(array("\r\n", "\n", "\r"),'',$request);
+    $jsonData = json_encode($output);
+    $table_name = "patient_allergies";
+    $change_type = $request['editID'];
 
+    ///////------- For Adding Records
+
+    $result = $this->Allergy_model->AddRecordsTo_patient_portal_changes($this->user_id,$table_name,$change_type,$jsonData,$request['hx_id']);
+    if($result){
+        echo compileResponse(300, "Your Message has been sent to the clinic. Please wait for them to review and respond.");
+    }else{
+        echo compileResponse(500, "Bad Parameters!!!");
+    }
 ///////------- For Adding Records
-
-$result = $this->Allergy_model->AddRecordsTo_patient_portal_changes($this->user_id,$table_name,$change_type,$jsonData,$request['hx_id']);
-if($result){
-    echo compileResponse(300, "Your Message has been sent to the clinic. Please wait for them to review and respond.");
-}else{
-    echo compileResponse(500, "Bad Parameters!!!");
-}
-///////------- For Adding Records
-
-
-
 
 }
 //////////////////////////------- For allergy/save.php --------///////////////////////////////// 
@@ -257,13 +254,16 @@ if($result){
     }
 
     public function delete_list(){
-        $request = get_request_body();	        
-        $result = $this->Allergy_model->delete($request);
-        if($result ){
-            echo compileResponse(300, "Deleteted Succefully");
+        $request = get_request_body();        
+    
+        ///////------- For Adding Records
+    
+        $result = $this->Allergy_model->delete($this->user_id,$request);
+        if($result){
+            echo compileResponse(300, "Your Message has been sent to the clinic. Please wait for them to review and respond.");
         }else{
             echo compileResponse(500, "Bad Parameters!!!");
-        }
+        }        
     }
 
 

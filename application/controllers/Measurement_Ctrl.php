@@ -73,23 +73,32 @@ public function measurement_edit()
     $table_name = $request['tb_name'];
 	$change_type = $request['editID'];    
 
-			///////------- For Adding Records
-			
-            $result = $this->Measurement_model->editData_patient_portal_changes($request["id"],$this->user_id,$table_name,$change_type,$jsonData,$request['hx_id']);
-			if($result ){
-				echo compileResponse(300, "Your Message has been updated and sent to the clinic. Please wait for them to review and respond.");
-			}else{
-				echo compileResponse(500, "Bad Parameters!!!");
-			}
-			///////------- For Adding Records
+    ///////------- For Adding Records
+    
+    $result = $this->Measurement_model->editData_patient_portal_changes($request["id"],$this->user_id,$table_name,$change_type,$jsonData,$request['hx_id']);
+    if($result ){
+        echo compileResponse(300, "Your Message has been updated and sent to the clinic. Please wait for them to review and respond.");
+    }else{
+        echo compileResponse(500, "Bad Parameters!!!");
+    }
+    ///////------- For Adding Records
 
 }
 
 public function delete_list(){
-    $request = get_request_body();	        
-    $result = $this->Measurement_model->delete($request);
+    $request = get_request_body();	
+	$request["patientId"] = $this->user_id;
+    $request["datetime"] = ($request["datetime"] == "" ? date('Y-m-d h:i A') : date('Y-m-d h:i A', strtotime($request["datetime"])));
+	$output = str_replace(array("\r\n", "\n", "\r"),'',$request);
+	$jsonData = json_encode($output);
+    $table_name = $request['tb_name'];
+	$change_type = 2;    
+
+    ///////------- For Adding Records
+    
+    $result = $this->Measurement_model->delData_patient_portal_changes($request["id"],$this->user_id,$table_name,$change_type,$jsonData,$request['hx_id']);
     if($result ){
-        echo compileResponse(300, "Deleteted Succefully");
+        echo compileResponse(300, "Your Message has been updated and sent to the clinic. Please wait for them to review and respond.");
     }else{
         echo compileResponse(500, "Bad Parameters!!!");
     }
