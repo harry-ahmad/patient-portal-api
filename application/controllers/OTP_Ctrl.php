@@ -22,6 +22,7 @@ class OTP_Ctrl extends MY_Controller {
             if(send_sms_helper($request['ph_no'],"Your OTP for Patient Portal is " . $request['token'])){
                 response(array(
                     "code" => SUCCESS,
+                    "pointer" => $request['token'],
                     "message" => "Code has been sent to " . $request['ph_no']
                 ));
             }
