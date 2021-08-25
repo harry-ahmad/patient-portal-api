@@ -85,10 +85,12 @@ public function pending_list($pid,$provider_id, $date){
     $this->db->where('JSON_EXTRACT(`changes`, "$.start_time") LIKE "%'.$date.'%"');    
     if($provider_id !== ""){        
         $this->db->where('JSON_EXTRACT(`changes`, "$.provider_id")  = "'.$provider_id.'"');
+        $this->db->or_where('JSON_EXTRACT(`changes`, "$.provider_id")  = '.$provider_id);
     }
     $this->db->where_in("status",array("0","2"));
     // $sql = $this->db->where("table_name","postcalendar_events")->where("date_time",'CURDATE()', false)->where_in('status',array("0","2"))->get("patient_portal_changes")->result();    
     $query = $this->db->get();
+    // echo $this->db->last_query();
     if($query->num_rows() > 0){
         return($query->result_array());
     }
