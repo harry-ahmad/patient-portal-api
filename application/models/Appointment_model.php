@@ -52,8 +52,8 @@ public function appoitment_list($pid,$provider_id, $date){
     if($provider_id !== ""){
         $where = "and provider_id = ".$provider_id;
     }
-    $sql = "SELECT title,start_time,end_time,provider_id,event_date FROM `postcalendar_events` WHERE event_date = ".$date." and patient_id = ".$pid." ".$where;
     
+    $sql = "SELECT title,start_time,end_time,provider_id,event_date FROM `postcalendar_events` WHERE event_date = '".$date."' and patient_id = ".$pid." ".$where;
     $query = $this->db->query($sql);
     if($query->num_rows() > 0){
         return($query->result_array());
