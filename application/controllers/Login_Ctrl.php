@@ -76,7 +76,7 @@ class Login_Ctrl extends CI_Controller {
 							}else{
 								$status = "1";
 							}
-							response(["status" => $status, "data" => $row, "message" => "Code has been sent to " . $row['phone_cell']]);
+							response(["status" => $status, "pointer" => $postData['token'], "data" => $row, "message" => "Code has been sent to " . $row['phone_cell']]);
 							return;
 						}
 

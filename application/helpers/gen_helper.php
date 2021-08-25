@@ -253,7 +253,7 @@ if(!function_exists('readyToLink'))
 			if($phoneNumber != ""){
 				include(APPPATH.'third_party/sms_composer/vendor/autoload.php');
 				$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-				$phoneNumberObject = $phoneUtil->parse($phoneNumber, 'GB');
+				$phoneNumberObject = $phoneUtil->parse($phoneNumber, 'US');
 				return $phoneUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
 			}else{
 				return "";

@@ -13,6 +13,7 @@ class Notification_Ctrl extends MY_Controller {
     {        
         $result = $this->Notification_model->getDataFrom_portal_changes($this->user_id);        
         $result1 = array('pending' => array(),'accepted' => array(),'rejected' => array());        
+        if($result)
         foreach($result as $val){             
             if($val['status'] == 1){
                 if($val['table_name'] == 'postcalendar_events'){
