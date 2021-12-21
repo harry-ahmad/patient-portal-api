@@ -15,6 +15,16 @@ Class Setting_model extends MY_Model {
 		return $res;
     }
 
+    ///---- Save SMS / Fax Log Function
+	public function sms_fax_log($data){
+		$this->db->insert('sms_log',$data);	
+		if($this->db->affected_rows() > 0){
+			return true;
+		}else{
+			return false;	
+		}
+	}
+
 
 }
 ?>
