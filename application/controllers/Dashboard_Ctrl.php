@@ -35,6 +35,8 @@ public function get_dashboard_data($type,$pid){
 		$query2 = "select *,MonthName(date) from vitals_readings where pid = ".$pid." and vital_type = 'BMI' order by date asc limit 5";
 	} else if ($type == 'cholestrol') {
 		$query = "select * from patient_cholesterol_data a where a.pid = ".$pid." order by a.cholesterol_id desc limit 5";
+	} else if ($type == 'appt') {
+		$query = "select * from postcalendar_events a where patient_id = ".$pid." and DATE(event_date) >= DATE('".date('Y-m-d')."') order by event_date limit 1";
 	}
 
 	$result = [];
