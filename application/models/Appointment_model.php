@@ -63,6 +63,28 @@ public function appoitment_list($pid,$provider_id, $date){
     }
 }
 
+public function booked_appoitment_list($pid,$provider_id, $date){
+
+    // $sql = "SELECT *
+    // -- concat('{title:\"',e.title,'\",start:\"',e.event_date,'T',e.start_time,'\",end:\"',e.event_date,'T',e.end_time,'\"}') event 
+    // FROM postcalendar_events WHERE event_date = CURRENT_DATE and patient_id=".$pid."";
+    // -- FROM postcalendar_events e WHERE CAST(e.time as Date) = CURDATE() and patient_id=".$pid;
+    // $sql = "SELECT provider_id FROM `postcalendar_events` WHERE patient_id = ".$pid." order by 'desc' limit 1";
+    $where = "";
+    if($provider_id !== ""){
+        $where = "and provider_id = ".$provider_id;
+    }
+    
+    $sql = "SELECT patient_id,title,start_time,end_time,provider_id,event_date FROM `postcalendar_events` WHERE event_date = '".$date."' and patient_id != ".$pid." ".$where;
+    $query = $this->db->query($sql);
+    if($query->num_rows() > 0){
+        return($query->result_array());
+    }
+    else{
+        return [];
+    }
+}
+
 public function get_last_provider($pid){
 
     
@@ -81,6 +103,30 @@ public function pending_list($pid,$provider_id, $date){
     $this->db->select('*');
     $this->db->from('patient_portal_changes');
     $this->db->where("table_name","postcalendar_events");
+    $this->db->where("pid",$pid);
+    // $this->db->where('date_format(date_time,"%Y-%m-%d")', $date);
+    $this->db->where('JSON_EXTRACT(`changes`, "$.start_time") LIKE "%'.$date.'%"');    
+    if($provider_id !== ""){        
+        $this->db->where('(JSON_EXTRACT(`changes`, "$.provider_id")  = "'.$provider_id.'"');
+        $this->db->or_where('JSON_EXTRACT(`changes`, "$.provider_id")  = '.$provider_id.')');
+    }
+    $this->db->where_in("status",array("0","2"));
+    // $sql = $this->db->where("table_name","postcalendar_events")->where("date_time",'CURDATE()', false)->where_in('status',array("0","2"))->get("patient_portal_changes")->result();    
+    $query = $this->db->get();
+    // echo $this->db->last_query();
+    if($query->num_rows() > 0){
+        return($query->result_array());
+    }
+    else{
+    return [];
+    }
+}
+
+public function booked_pending_list($pid,$provider_id, $date){
+    $this->db->select('*');
+    $this->db->from('patient_portal_changes');
+    $this->db->where("table_name","postcalendar_events");
+    $this->db->where("pid !=",$pid);
     // $this->db->where('date_format(date_time,"%Y-%m-%d")', $date);
     $this->db->where('JSON_EXTRACT(`changes`, "$.start_time") LIKE "%'.$date.'%"');    
     if($provider_id !== ""){        

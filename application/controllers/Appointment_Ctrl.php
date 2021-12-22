@@ -77,9 +77,13 @@ if(isset($get_last_provider['provider_id']))
 	$result['last_provider'] = $get_last_provider['provider_id'];
 
 $appoitment_list = $this->Appointment_model->appoitment_list($this->user_id,$result['last_provider'], $body['date']);
+$booked_appoitment_list = $this->Appointment_model->booked_appoitment_list($this->user_id,$result['last_provider'], $body['date']);
 $pending_list = $this->Appointment_model->pending_list($this->user_id,$result['last_provider'], $body['date']);
+$booked_pending_list = $this->Appointment_model->booked_pending_list($this->user_id,$result['last_provider'], $body['date']);
 $result['appoitment_list'] = $appoitment_list;
+$result['booked_appoitment_list'] = $booked_appoitment_list;
 $result['pending_list'] = $pending_list;
+$result['booked_pending_list'] = $booked_pending_list;
 
 echo json_encode($result);
 }
